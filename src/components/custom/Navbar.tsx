@@ -10,6 +10,7 @@ import {
   Instagram,
   Linkedin,
   Youtube,
+  X,
 } from "lucide-react";
 import { useMediaQuery } from "@/lib/use-media-query";
 import Link from "next/link";
@@ -481,7 +482,7 @@ const Navbar = () => {
             initial="hidden"
             animate="visible"
             exit={overlayExitVariants}
-            className="fixed inset-0 z-40 bg-[#f6eee8] p-2"
+            className="fixed inset-0 z-40 bg-[#f6eee8] p-1 sm:p-2"
             style={{
               background:
                 "linear-gradient(135deg, #f6eee8 0%, #e8dbc6 50%, #f6eee8 100%)",
@@ -640,15 +641,27 @@ const Navbar = () => {
                     delay: Math.random() * 2,
                     ease: "easeInOut",
                   }}
-                />
-              ))}
+                />              ))}
             </div>
-            <div className="flex flex-col justify-center min-h-screen px-8 md:px-16 relative z-10">              <motion.div
+            
+            {/* Close button for mobile */}
+            <motion.button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-4 right-4 z-20 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-700 hover:text-red-500 hover:bg-white transition-colors duration-200"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
+            </motion.button>
+              <div className="flex flex-col justify-center min-h-screen px-4 sm:px-6 md:px-16 relative z-10">              <motion.div
                 variants={menuContainerVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                className="space-y-6 mb-10"
+                className="space-y-3 sm:space-y-4 md:space-y-6 mb-6 sm:mb-8 md:mb-10 text-center md:text-left"
               >
                 {navItems.map((item, index) => (                  <motion.div
                     key={item.name}
@@ -663,9 +676,7 @@ const Navbar = () => {
                     </div>
                   </motion.div>
                 ))}
-              </motion.div>
-
-              <div className="flex space-x-6">
+              </motion.div>              <div className="flex space-x-3 sm:space-x-4 md:space-x-6 justify-center sm:justify-start">
                 {socialLinks.map((social, index) => {
                   const IconComponent = social.icon;
                   return (
@@ -680,7 +691,7 @@ const Navbar = () => {
                       {" "}
                       <motion.a
                         href={social.href}
-                        className="flex items-center justify-center w-14 h-14 rounded-full bg-white/50 backdrop-blur-sm border border-amber-200 text-gray-700 hover:text-emerald-600 hover:bg-white/70 transition-colors duration-150"
+                        className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-white/50 backdrop-blur-sm border border-amber-200 text-gray-700 hover:text-emerald-600 hover:bg-white/70 transition-colors duration-150"
                         whileHover={{
                           scale: 1.1, // Reduced from 1.2
                           rotate: 180, // Reduced from 360
@@ -689,11 +700,12 @@ const Navbar = () => {
                         }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        <IconComponent className="w-6 h-6" />
+                        <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
                       </motion.a>
                     </motion.div>
                   );
-                })}                <motion.div
+                })}
+                <motion.div
                   initial={{ opacity: 0, y: 50, scale: 0.8 }}
                   animate={{
                     opacity: 1,
@@ -707,7 +719,7 @@ const Navbar = () => {
                     stiffness: 200, // Increased
                     damping: 20, // Increased
                   }}
-                  className="ml-auto"
+                  className="ml-auto hidden sm:block"
                 >
                   {/* <motion.button
                     onClick={() => setIsOpen(false)}

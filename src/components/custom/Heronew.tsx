@@ -335,12 +335,71 @@ export default function Index() {
               </div>
             </div>
           </section>
-        </div>
-
-        <div className="wrapper">
+        </div>        <div className="wrapper">
           <section className="text-white w-full bg-[#f6eee8]">
-            <div className="grid grid-cols-2 px-8">
-              <div className="grid gap-2">
+            {/* Mobile Layout - Single Column */}
+            <div className="block lg:hidden px-4 sm:px-6 py-8">
+              <div className="max-w-4xl mx-auto">
+                <motion.h2 
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-3xl sm:text-4xl font-medium text-center tracking-tight leading-[120%] text-gray-800 mb-8 sm:mb-12"
+                >
+                  Your Journey to Sustainability
+                </motion.h2>
+                
+                <div className="space-y-8 sm:space-y-12">
+                  {processSteps.map((step, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      className="flex flex-col space-y-4"
+                    >
+                      {/* Image */}
+                      <div className="relative group mx-auto">
+                        <img
+                          src={step.image}
+                          alt={step.title}
+                          className="transition-all duration-300 w-full max-w-sm h-48 sm:h-60 object-cover rounded-lg shadow-lg group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-lg"></div>
+                        <div className="absolute top-3 left-3">
+                          <div className="bg-emerald-500 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base">
+                            {index + 1}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Content */}
+                      <div className="text-center">
+                        <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-3">
+                          {step.title}
+                        </h3>
+                        <p className="text-gray-600 text-sm sm:text-base leading-relaxed max-w-md mx-auto">
+                          {step.description}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                  className="mt-8 sm:mt-12 text-center"
+                >
+                  <ButtonCustom value="Start Tracking Now" />
+                </motion.div>
+              </div>
+            </div>
+
+            {/* Desktop Layout - Two Columns */}
+            <div className="hidden lg:grid lg:grid-cols-2 px-8">
+              <div className="flex flex-col">
                 {processSteps.map((step, index) => (
                   <figure
                     key={index}
@@ -350,7 +409,7 @@ export default function Index() {
                       <img
                         src={step.image}
                         alt={step.title}
-                        className="transition-all duration-300 w-96 h-96 align-bottom object-cover rounded-md group-hover:scale-105"
+                        className="transition-all duration-300 w-80 xl:w-96 h-80 xl:h-96 align-bottom object-cover rounded-md group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-md"></div>
                       <div className="absolute bottom-4 left-4 right-4 text-white">
@@ -365,7 +424,7 @@ export default function Index() {
               </div>
               <div className="sticky top-0 h-screen grid place-content-center">
                 <div className="max-w-lg">
-                  <h2 className="text-4xl lg:text-5xl font-medium text-right tracking-tight leading-[120%] text-gray-800 mb-8">
+                  <h2 className="text-4xl xl:text-5xl font-medium text-right tracking-tight leading-[120%] text-gray-800 mb-8">
                     Your Journey to Sustainability
                   </h2>
                   <div className="space-y-6">

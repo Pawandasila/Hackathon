@@ -5,12 +5,11 @@ const DURATION = 0.25;
 const STAGGER = 0.025;
 
 const FlipLink = ({ children, href }: { children: string; href: string }) => {
-  return (
-    <motion.a
+  return (    <motion.a
       initial="initial"
       whileHover="hovered"
       href={href}
-      className="relative block overflow-hidden whitespace-nowrap text-5xl md:text-7xl lg:text-8xl font-bold text-gray-800 hover:text-emerald-600 transition-colors duration-300"
+      className="relative block overflow-hidden whitespace-nowrap text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-800 hover:text-emerald-600 transition-colors duration-300"
       style={{
         lineHeight: 0.75,
         fontFamily: "'Inter', sans-serif",

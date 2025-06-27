@@ -120,6 +120,7 @@ const Navbar = () => {
     { name: "Contact", href: "/contact" },
     { name: "Pricings", href: "/billing" },
     { name: "Rewards", href: "/rewards" },
+    { name: "marketing", href: "/marketing" },
   ];
 
   const socialLinks = [

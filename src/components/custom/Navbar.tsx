@@ -74,24 +74,21 @@ const Navbar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  // Media queries for responsive behavior
   const isMobile = useMediaQuery("(max-width: 767px)");
   const isTablet = useMediaQuery("(min-width: 768px) and (max-width: 1023px)");
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
-  // Enhanced scroll effect with section detection
+  
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const isScrolled = scrollY > 20;
 
-      // Check if we've scrolled into another hero section (beyond first screen)
-      const heroSectionHeight = window.innerHeight; // Assuming first hero is full viewport height
-      const isInNextSection = scrollY > heroSectionHeight * 0.8; // Show hamburger when 80% through first section
+      const heroSectionHeight = window.innerHeight;
+      const isInNextSection = scrollY > heroSectionHeight * 0.8;
 
       setScrolled(isScrolled);
 
-      // Show hamburger on mobile/tablet OR when scrolled into next section on desktop
       if (isMobile || isTablet) {
         setShowHamburger(true);
       } else if (isDesktop) {
@@ -99,7 +96,7 @@ const Navbar = () => {
       }
     };
 
-    handleScroll(); // Call once to set initial state
+    handleScroll(); 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isMobile, isTablet, isDesktop]);  useEffect(() => {
@@ -118,9 +115,8 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
-    { name: "Pricings", href: "/billing" },
     { name: "Rewards", href: "/rewards" },
-    { name: "marketing", href: "/marketing" },
+    { name: "Marketing", href: "/marketing" },
   ];
 
   const socialLinks = [
@@ -168,7 +164,7 @@ const Navbar = () => {
         damping: 15,
       },
     }),
-  }; // Enhanced overlay animation with beautiful exit
+  }; 
   const overlayVariants = {
     hidden: {
       opacity: 0,

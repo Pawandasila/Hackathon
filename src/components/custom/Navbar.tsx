@@ -72,13 +72,24 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [showHamburger, setShowHamburger] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
   const isMobile = useMediaQuery("(max-width: 767px)");
   const isTablet = useMediaQuery("(min-width: 768px) and (max-width: 1023px)");
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
-  
+  // Set active index based on current route
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    const currentIndex = navItems.findIndex(
+      (item) => item.href === currentPath
+    );
+    if (currentIndex !== -1) {
+      setActiveIndex(currentIndex);
+    }
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -96,10 +107,11 @@ const Navbar = () => {
       }
     };
 
-    handleScroll(); 
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isMobile, isTablet, isDesktop]);  useEffect(() => {
+  }, [isMobile, isTablet, isDesktop]);
+  useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -164,7 +176,7 @@ const Navbar = () => {
         damping: 15,
       },
     }),
-  }; 
+  };
   const overlayVariants = {
     hidden: {
       opacity: 0,
@@ -363,13 +375,17 @@ const Navbar = () => {
                   key={item.name}
                   custom={index}
                   variants={itemVariants}
-                  onMouseEnter={() => setActiveIndex(index)}
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
                   className="relative"
                 >
                   <Link
                     href={item.href}
+                    onClick={() => setActiveIndex(index)}
                     className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 relative overflow-hidden ${
                       activeIndex === index
+                        ? "text-blue-600"
+                        : hoveredIndex === index
                         ? "text-blue-600"
                         : scrolled
                         ? "text-gray-700 hover:text-blue-600"
@@ -377,10 +393,24 @@ const Navbar = () => {
                     }`}
                   >
                     {item.name}
+                    {/* Active indicator - always shows for active item */}
                     {activeIndex === index && (
                       <motion.div
                         layoutId="activeIndicator"
                         className="absolute inset-0 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full -z-10"
+                        initial={false}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+                    {/* Hover indicator - only shows for hovered item when it's not active */}
+                    {hoveredIndex === index && activeIndex !== index && (
+                      <motion.div
+                        layoutId="hoverIndicator"
+                        className="absolute inset-0 bg-gradient-to-r from-gray-100 to-gray-100 rounded-full -z-10"
                         initial={false}
                         transition={{
                           type: "spring",
@@ -487,7 +517,6 @@ const Navbar = () => {
               boxShadow: "inset 0 0 100px rgba(16, 185, 129, 0.1)",
             }}
           >
-            
             <div className="absolute inset-0 overflow-hidden">
               {/* Ambient glowing orbs */}
               {[...Array(6)].map((_, i) => (
@@ -638,9 +667,10 @@ const Navbar = () => {
                     delay: Math.random() * 2,
                     ease: "easeInOut",
                   }}
-                />              ))}
+                />
+              ))}
             </div>
-            
+
             {/* Close button for mobile */}
             <motion.button
               onClick={() => setIsOpen(false)}
@@ -653,27 +683,29 @@ const Navbar = () => {
             >
               <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </motion.button>
-              <div className="flex flex-col justify-center min-h-screen px-4 sm:px-6 md:px-16 relative z-10">              <motion.div
+            <div className="flex flex-col justify-center min-h-screen px-4 sm:px-6 md:px-16 relative z-10">
+              
+              <motion.div
                 variants={menuContainerVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
                 className="space-y-3 sm:space-y-4 md:space-y-6 mb-6 sm:mb-8 md:mb-10 text-center md:text-left"
               >
-                {navItems.map((item, index) => (                  <motion.div
+                {navItems.map((item, index) => (
+                  <motion.div
                     key={item.name}
                     variants={menuItemVariants}
                     className="overflow-hidden"
                     style={{ perspective: "1000px" }}
                   >
                     <div onClick={() => setIsOpen(false)}>
-                      <FlipLink href={item.href}>
-                        {item.name}
-                      </FlipLink>
+                      <FlipLink href={item.href}>{item.name}</FlipLink>
                     </div>
                   </motion.div>
                 ))}
-              </motion.div>              <div className="flex space-x-3 sm:space-x-4 md:space-x-6 justify-center sm:justify-start">
+              </motion.div>{" "}
+              <div className="flex space-x-3 sm:space-x-4 md:space-x-6 justify-center sm:justify-start">
                 {socialLinks.map((social, index) => {
                   const IconComponent = social.icon;
                   return (

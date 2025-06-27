@@ -517,269 +517,386 @@ const Navbar = () => {
               boxShadow: "inset 0 0 100px rgba(16, 185, 129, 0.1)",
             }}
           >
+            {/* Enhanced Background with More Sophisticated Animations */}
             <div className="absolute inset-0 overflow-hidden">
-              {/* Ambient glowing orbs */}
-              {[...Array(6)].map((_, i) => (
+              {/* Dynamic Gradient Mesh */}
+              <motion.div
+                className="absolute inset-0"
+                style={{
+                  background: `
+                    radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.12) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 40%, rgba(5, 150, 105, 0.08) 0%, transparent 50%)
+                  `,
+                }}
+                animate={{
+                  background: [
+                    `radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+                     radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.12) 0%, transparent 50%),
+                     radial-gradient(circle at 40% 40%, rgba(5, 150, 105, 0.08) 0%, transparent 50%)`,
+                    `radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.18) 0%, transparent 60%),
+                     radial-gradient(circle at 20% 80%, rgba(34, 197, 94, 0.15) 0%, transparent 60%),
+                     radial-gradient(circle at 60% 60%, rgba(5, 150, 105, 0.10) 0%, transparent 60%)`,
+                    `radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+                     radial-gradient(circle at 30% 70%, rgba(34, 197, 94, 0.08) 0%, transparent 50%),
+                     radial-gradient(circle at 70% 30%, rgba(5, 150, 105, 0.06) 0%, transparent 50%)`,
+                  ],
+                }}
+                transition={{
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              />
+
+              {/* Floating Geometric Elements */}
+              {[...Array(12)].map((_, i) => (
                 <motion.div
-                  key={`glow-${i}`}
-                  className="absolute rounded-full filter blur-xl"
-                  style={{
-                    width: `${100 + i * 50}px`,
-                    height: `${100 + i * 50}px`,
-                    left: `${15 + i * 15}%`,
-                    top: `${10 + i * 12}%`,
-                    background: `radial-gradient(circle, ${
-                      i % 2 === 0
-                        ? "rgba(16, 185, 129, 0.15)"
-                        : "rgba(34, 197, 94, 0.12)"
-                    } 0%, transparent 70%)`,
+                  key={`geo-${i}`}
+                  className={`absolute ${
+                    i % 4 === 0
+                      ? "w-6 h-6 rounded-full bg-gradient-to-br from-emerald-200/30 to-green-300/20"
+                      : i % 4 === 1
+                      ? "w-4 h-4 rounded bg-gradient-to-br from-teal-200/25 to-emerald-300/15 rotate-45"
+                      : i % 4 === 2
+                      ? "w-8 h-1 rounded-full bg-gradient-to-r from-green-200/20 to-emerald-200/15"
+                      : "w-3 h-8 rounded-full bg-gradient-to-b from-emerald-200/20 to-green-200/10"
+                  }`}
+                  initial={{
+                    x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),
+                    y: Math.random() * (typeof window !== "undefined" ? window.innerHeight : 800),
+                    opacity: 0,
+                    scale: 0,
                   }}
                   animate={{
-                    scale: [0.8, 1.3, 0.8],
-                    opacity: [0.3, 0.6, 0.3],
-                    x: [-20, 20],
-                    y: [-15, 15],
+                    x: [
+                      Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),
+                      Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),
+                    ],
+                    y: [
+                      Math.random() * (typeof window !== "undefined" ? window.innerHeight : 800),
+                      Math.random() * (typeof window !== "undefined" ? window.innerHeight : 800),
+                    ],
+                    opacity: [0, 0.6, 0],
+                    scale: [0, 1.2, 0],
+                    rotate: [0, 360],
                   }}
                   transition={{
-                    duration: 8 + i * 2,
+                    duration: 15 + Math.random() * 10,
                     repeat: Infinity,
-                    delay: i * 1.5,
+                    delay: Math.random() * 5,
                     ease: "easeInOut",
                   }}
                 />
               ))}
 
-              {/* Floating sparkles */}
-              {[...Array(30)].map((_, i) => (
+              {/* Animated Light Rays */}
+              {[...Array(8)].map((_, i) => (
                 <motion.div
-                  key={`sparkle-${i}`}
-                  className="absolute"
+                  key={`ray-${i}`}
+                  className="absolute top-0 left-1/2 w-0.5 origin-top"
                   style={{
-                    left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
-                  }}
-                  initial={{
-                    scale: 0,
-                    opacity: 0,
-                    rotate: 0,
+                    height: "100vh",
+                    background: `linear-gradient(to bottom, rgba(16, 185, 129, 0.1), transparent)`,
+                    transform: `rotate(${i * 45}deg)`,
+                    transformOrigin: "top center",
                   }}
                   animate={{
-                    scale: [0, 1.5, 0],
-                    opacity: [0, 1, 0],
-                    rotate: 360,
-                    x: [-20, 20, -20],
-                    y: [-20, 20, -20],
+                    opacity: [0, 0.3, 0],
+                    scaleY: [0.5, 1, 0.5],
                   }}
                   transition={{
-                    duration: 4 + Math.random() * 2,
+                    duration: 8,
                     repeat: Infinity,
-                    delay: Math.random() * 3,
+                    delay: i * 1,
                     ease: "easeInOut",
                   }}
-                >
-                  <div className="w-1 h-1 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full">
-                    <div className="absolute inset-0 bg-white/60 rounded-full animate-pulse" />
-                  </div>
-                </motion.div>
+                />
               ))}
 
-              {/* Larger animated particles */}
-              {[...Array(15)].map((_, i) => (
+              {/* Morphing Blob Shapes */}
+              {[...Array(4)].map((_, i) => (
+                <motion.div
+                  key={`blob-${i}`}
+                  className="absolute rounded-full filter blur-2xl"
+                  style={{
+                    width: `${150 + i * 50}px`,
+                    height: `${150 + i * 50}px`,
+                    left: `${15 + i * 20}%`,
+                    top: `${10 + i * 20}%`,
+                    background: `radial-gradient(circle, ${
+                      i % 2 === 0
+                        ? "rgba(16, 185, 129, 0.08)"
+                        : "rgba(34, 197, 94, 0.06)"
+                    } 0%, transparent 70%)`,
+                  }}
+                  animate={{
+                    scale: [0.8, 1.4, 0.8],
+                    x: [-30, 30, -30],
+                    y: [-20, 20, -20],
+                    borderRadius: ["50%", "40% 60%", "50%"],
+                  }}
+                  transition={{
+                    duration: 12 + i * 2,
+                    repeat: Infinity,
+                    delay: i * 2,
+                    ease: "easeInOut",
+                  }}
+                />
+              ))}
+
+              {/* Interactive Particle System */}
+              {[...Array(40)].map((_, i) => (
                 <motion.div
                   key={`particle-${i}`}
-                  className="absolute w-3 h-3 bg-gradient-to-r from-emerald-300/40 to-green-400/40 rounded-full"
+                  className="absolute w-1 h-1 bg-emerald-400/40 rounded-full"
                   initial={{
-                    x:
-                      Math.random() *
-                      (typeof window !== "undefined"
-                        ? window.innerWidth
-                        : 1200),
-                    y:
-                      Math.random() *
-                      (typeof window !== "undefined"
-                        ? window.innerHeight
-                        : 800),
+                    x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),
+                    y: typeof window !== "undefined" ? window.innerHeight : 800,
                     scale: 0,
                   }}
                   animate={{
                     y: -100,
-                    scale: [0, 1.2, 0],
+                    x: [
+                      Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),
+                      Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),
+                    ],
+                    scale: [0, Math.random() * 2 + 0.5, 0],
                     opacity: [0, 0.8, 0],
-                    rotate: 720,
                   }}
                   transition={{
-                    duration: 6 + Math.random() * 3,
+                    duration: Math.random() * 8 + 5,
                     repeat: Infinity,
-                    delay: Math.random() * 4,
-                    ease: "easeInOut",
+                    delay: Math.random() * 3,
+                    ease: "linear",
                   }}
                 />
               ))}
 
-              {/* Gradient waves */}
-              {[...Array(5)].map((_, i) => (
+              {/* Pulsing Rings */}
+              {[...Array(3)].map((_, i) => (
                 <motion.div
-                  key={`wave-${i}`}
-                  className="absolute inset-0"
+                  key={`ring-${i}`}
+                  className="absolute top-1/2 left-1/2 border border-emerald-300/20 rounded-full"
                   style={{
-                    background: `radial-gradient(circle at ${30 + i * 20}% ${
-                      20 + i * 15
-                    }%, rgba(16, 185, 129, 0.1) 0%, transparent 50%)`,
+                    width: `${200 + i * 100}px`,
+                    height: `${200 + i * 100}px`,
+                    marginLeft: `-${100 + i * 50}px`,
+                    marginTop: `-${100 + i * 50}px`,
                   }}
                   animate={{
                     scale: [0.5, 1.5, 0.5],
-                    opacity: [0.3, 0.1, 0.3],
+                    opacity: [0, 0.3, 0],
+                    rotate: [0, 360],
                   }}
                   transition={{
-                    duration: 8 + i * 2,
+                    duration: 6 + i * 2,
                     repeat: Infinity,
-                    delay: i * 1.5,
-                    ease: "easeInOut",
-                  }}
-                />
-              ))}
-
-              {/* Floating geometric shapes */}
-              {[...Array(8)].map((_, i) => (
-                <motion.div
-                  key={`shape-${i}`}
-                  className={`absolute ${
-                    i % 3 === 0
-                      ? "w-4 h-4 rounded-full"
-                      : i % 3 === 1
-                      ? "w-3 h-3 rounded"
-                      : "w-2 h-6 rounded-full"
-                  } bg-gradient-to-br from-emerald-200/30 to-green-300/30 backdrop-blur-sm`}
-                  style={{
-                    left: `${10 + i * 12}%`,
-                    top: `${15 + i * 8}%`,
-                  }}
-                  animate={{
-                    y: [-20, 20],
-                    x: [-10, 10],
-                    rotate: [0, 180],
-                    scale: [0.8, 1.2],
-                  }}
-                  transition={{
-                    duration: 5 + Math.random() * 3,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    delay: Math.random() * 2,
+                    delay: i * 2,
                     ease: "easeInOut",
                   }}
                 />
               ))}
             </div>
 
-            {/* Close button for mobile */}
-            <motion.button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4 z-20 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-700 hover:text-red-500 hover:bg-white transition-colors duration-200"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <X className="w-5 h-5 sm:w-6 sm:h-6" />
-            </motion.button>
-            <div className="flex flex-col justify-center min-h-screen px-4 sm:px-6 md:px-16 relative z-10">
-              
+            {/* Close button and Header Section at the top */}
+            <div className="absolute top-0 left-0 right-0 z-20 flex items-start justify-between p-4 sm:p-6">
+              {/* Enhanced Brand Section - At the top with close button */}
               <motion.div
-                variants={menuContainerVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                className="space-y-3 sm:space-y-4 md:space-y-6 mb-6 sm:mb-8 md:mb-10 text-center md:text-left"
+                initial={{ opacity: 0, y: -30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, duration: 0.8, ease: "easeOut" }}
+                className="flex-1 text-left pr-4"
               >
-                {navItems.map((item, index) => (
-                  <motion.div
-                    key={item.name}
-                    variants={menuItemVariants}
-                    className="overflow-hidden"
-                    style={{ perspective: "1000px" }}
-                  >
-                    <div onClick={() => setIsOpen(false)}>
-                      <FlipLink href={item.href}>{item.name}</FlipLink>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>{" "}
-              <div className="flex space-x-3 sm:space-x-4 md:space-x-6 justify-center sm:justify-start">
-                {socialLinks.map((social, index) => {
-                  const IconComponent = social.icon;
-                  return (
-                    <motion.div
-                      key={social.label}
-                      custom={index}
-                      variants={socialItemVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                    >
-                      {" "}
-                      <motion.a
-                        href={social.href}
-                        className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-white/50 backdrop-blur-sm border border-amber-200 text-gray-700 hover:text-emerald-600 hover:bg-white/70 transition-colors duration-150"
-                        whileHover={{
-                          scale: 1.1, // Reduced from 1.2
-                          rotate: 180, // Reduced from 360
-                          boxShadow: "0 5px 15px rgba(16, 185, 129, 0.2)",
-                          transition: { duration: 0.2 }, // Much faster
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-                      </motion.a>
-                    </motion.div>
-                  );
-                })}
-                <motion.div
-                  initial={{ opacity: 0, y: 50, scale: 0.8 }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                  }}
-                  transition={{
-                    delay: 0.3, // Reduced from 1.2
-                    duration: 0.3, // Reduced from 0.6
-                    type: "spring",
-                    stiffness: 200, // Increased
-                    damping: 20, // Increased
-                  }}
-                  className="ml-auto hidden sm:block"
+                <motion.h1 
+                  className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent mb-1 sm:mb-2"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
                 >
-                  {/* <motion.button
-                    onClick={() => setIsOpen(false)}
-                    className="bg-gradient-to-r from-emerald-500 to-green-600 backdrop-blur-sm border border-emerald-300 text-white px-10 py-4 rounded-full font-medium hover:from-emerald-600 hover:to-green-700 transition-colors duration-200 flex items-center space-x-3 shadow-2xl"
-                    whileHover={{
-                      scale: 1.02, // Reduced from 1.05
-                      boxShadow: "0 10px 20px rgba(16, 185, 129, 0.3)",
-                      transition: { duration: 0.15 }, // Much faster
-                    }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <span className="text-lg">START YOUR ECO JOURNEY</span>
-                    <motion.svg
-                      className="w-6 h-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      whileHover={{ x: 3 }}
-                      transition={{ duration: 0.15 }}
+                  Navigate Your
+                </motion.h1>
+                <motion.h2 
+                  className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light text-gray-700 mb-2 sm:mb-3"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                >
+                  Sustainable Journey
+                </motion.h2>
+                <motion.div 
+                  className="w-12 sm:w-16 md:w-20 h-0.5 sm:h-1 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: "auto" }}
+                  transition={{ delay: 0.6, duration: 0.8 }}
+                />
+              </motion.div>
+              
+              
+            </div>
+
+            <div className="flex flex-col min-h-screen relative z-10">
+              <div className="flex-shrink-0 h-24 sm:h-28 md:h-32 mb-3" />
+              
+              
+              <div className="flex-1 flex flex-col justify-center px-6 sm:px-8 md:px-16 lg:px-20 xl:px-24">
+                
+                <motion.div
+                  variants={menuContainerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="space-y-4 mt-2 sm:space-y-6 md:space-y-8 mb-10 text-center md:text-left"
+                >
+                  {navItems.map((item, index) => (
+                    <motion.div
+                      key={item.name}
+                      variants={menuItemVariants}
+                      className="overflow-hidden group"
+                      style={{ perspective: "1000px" }}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      <motion.div 
+                        onClick={() => setIsOpen(false)}
+                        className="relative"
+                        whileHover={{ x: 10 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                      >
+                        {/* Enhanced Menu Item Background */}
+                        <motion.div
+                          className="absolute inset-0 b p-3 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          whileHover={{ scale: 1.02 }}
+                        />
+                        
+                        {/* Menu Item Number */}
+                        <motion.span
+                          className="absolute -left-8 sm:-left-12 md:-left-16 top-1/2 transform -translate-y-1/2 text-emerald-300/60 font-mono text-sm sm:text-base hidden md:block"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.8 + index * 0.1 }}
+                        >
+                          0{index + 1}
+                        </motion.span>
+                        
+                        <FlipLink href={item.href}>
+                          {item.name}
+                        </FlipLink>
+                        
+                        {/* Animated Arrow */}
+                        <motion.div
+                          className="absolute right-4 sm:right-6 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100"
+                          initial={{ x: -10 }}
+                          whileHover={{ x: 0 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                        >
+                          <motion.svg
+                            className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            whileHover={{ x: 5 }}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M17 8l4 4m0 0l-4 4m4-4H3"
+                            />
+                          </motion.svg>
+                        </motion.div>
+                      </motion.div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+
+                {/* Enhanced Footer Section */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.0, duration: 0.6 }}
+                  className="space-y-6 sm:space-y-8  flex items-center justify-between"
+                >
+                  {/* Social Links with Enhanced Styling */}
+                  <div className="flex flex-wrap gap-4 sm:gap-6 justify-center md:justify-start">
+                    {socialLinks.map((social, index) => {
+                      const IconComponent = social.icon;
+                      return (
+                        <motion.div
+                          key={social.label}
+                          custom={index}
+                          variants={socialItemVariants}
+                          initial="hidden"
+                          animate="visible"
+                          exit="exit"
+                          className="group"
+                        >
+                          <motion.a
+                            href={social.href}
+                            className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-2xl bg-white/60 backdrop-blur-md border border-emerald-200/50 text-gray-600 hover:text-emerald-600 hover:bg-white/80 transition-all duration-300 shadow-lg hover:shadow-xl relative overflow-hidden"
+                            whileHover={{
+                              scale: 1.1,
+                              rotate: 5,
+                              boxShadow: "0 10px 25px rgba(16, 185, 129, 0.25)",
+                            }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            {/* Background Glow Effect */}
+                            <motion.div
+                              className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 to-green-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              initial={false}
+                            />
+                            
+                            <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 relative z-10" />
+                            
+                            {/* Tooltip */}
+                            <motion.div
+                              className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"
+                              initial={{ y: 10, opacity: 0 }}
+                              whileHover={{ y: 0, opacity: 1 }}
+                            >
+                              {social.label}
+                            </motion.div>
+                          </motion.a>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Call to Action Button */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ delay: 1.2, duration: 0.6, type: "spring", stiffness: 200 }}
+                    className="flex justify-center md:justify-start"
+                  >
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="relative group"
+                    >
+                      {/* Animated background glow */}
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full blur-lg opacity-50 group-hover:opacity-75 transition-opacity duration-300"
+                        animate={{
+                          scale: [1, 1.1, 1],
+                          opacity: [0.5, 0.7, 0.5],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
                       />
-                    </motion.svg>
-                  </motion.button> */}
-                  <ButtonCustom value="START YOUR ECO JOURNEY" />
+                      <ButtonCustom value="START YOUR ECO JOURNEY" />
+                    </motion.div>
+                  </motion.div>
+
+                  {/* Additional Info Text */}
+                  
                 </motion.div>
               </div>
+              
+              {/* Bottom Spacer */}
+              <div className="flex-shrink-0 h-8 sm:h-12 md:h-16" />
             </div>
           </motion.div>
         )}

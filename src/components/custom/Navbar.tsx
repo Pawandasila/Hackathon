@@ -139,13 +139,13 @@ const Navbar = () => {
           !isMobile && !isTablet && showHamburger
             ? "hidden"
             : scrolled
-            ? "bg-white/95 backdrop-blur-xl shadow-2xl border-b border-gray-200/50"
+            ? "bg-white/85 backdrop-blur-lg shadow-lg border-b border-white/30"
             : "bg-transparent"
         }`}
         style={{
           backdropFilter:
             scrolled && !(!isMobile && !isTablet && showHamburger)
-              ? "blur(20px) saturate(180%)"
+              ? "blur(12px) saturate(120%)"
               : "none",
         }}
       >

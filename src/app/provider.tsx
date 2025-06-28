@@ -9,11 +9,11 @@ interface ProviderProps {
 
 const Provider = ({ children }: ProviderProps) => {
   return (
-    <div className="bg-[#f6eee8]">
+    <div className="bg-transparent" >
       <SmoothCursor />
       <Navbar />
       
-      <main className="pt-16 md:pt-20">
+      <main className="pt-16 md:pt-16">
         {children}
       </main>
     </div>

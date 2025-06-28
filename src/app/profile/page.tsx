@@ -24,8 +24,11 @@ import {
   ChevronRight,
   Settings,
   LogOut,
+  Sparkles,
+  Crown,
+  Flame,
+  Zap,
 } from "lucide-react";
-import Link from "next/link";
 
 interface Transaction {
   id: string;
@@ -48,16 +51,33 @@ interface UserProfile {
 }
 
 const ProfilePage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Set to true for demo
   const [isEditing, setIsEditing] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("account");
+  const [isClient, setIsClient] = useState(false);
+
+  // Generate consistent random values for particles
+  const [particlePositions] = useState(() => {
+    return Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      duration: 3 + Math.random() * 2,
+      delay: Math.random() * 2,
+    }));
+  });
+
+  // Set client-side flag after mount
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // User data
   const [profile, setProfile] = useState<UserProfile>({
-    name: "",
-    email: "",
+    name: "Alex Johnson",
+    email: "alex.johnson@ecotrack360.com",
     joinDate: "January 2024",
     totalEcoCoins: 2450,
     totalRupeesSaved: 1225,
@@ -67,8 +87,8 @@ const ProfilePage = () => {
 
   // Form data for editing
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    name: "Alex Johnson",
+    email: "alex.johnson@ecotrack360.com",
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
@@ -130,56 +150,6 @@ const ProfilePage = () => {
     general: "",
   });
 
-  // Check login status and load user data
-  useEffect(() => {
-    const checkLoginStatus = () => {
-      const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-      setIsLoggedIn(loggedIn);
-      
-      if (loggedIn) {
-        const userName = localStorage.getItem("userName") || "EcoWarrior";
-        const userEmail = localStorage.getItem("userEmail") || "user@ecotrack360.com";
-        
-        setProfile(prev => ({
-          ...prev,
-          name: userName,
-          email: userEmail,
-        }));
-        
-        setFormData(prev => ({
-          ...prev,
-          name: userName,
-          email: userEmail,
-        }));
-      } else {
-        setIsLoggedIn(false);
-      }
-    };
-
-    
-    checkLoginStatus();
-
-    // Listen for storage changes (when user logs out from navbar or other components)
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === "isLoggedIn") {
-        checkLoginStatus();
-      }
-    };
-
-    // Listen for custom logout events (when logout happens in same tab)
-    const handleCustomLogout = () => {
-      checkLoginStatus();
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    window.addEventListener("logout", handleCustomLogout);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-      window.removeEventListener("logout", handleCustomLogout);
-    };
-  }, []);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -187,7 +157,6 @@ const ProfilePage = () => {
       [name]: value,
     }));
     
-    // Clear errors when user starts typing
     if (errors[name as keyof typeof errors]) {
       setErrors(prev => ({
         ...prev,
@@ -200,7 +169,6 @@ const ProfilePage = () => {
   const handleSaveProfile = async () => {
     setErrors({ currentPassword: "", newPassword: "", confirmPassword: "", general: "" });
 
-    // Validate password change if attempting
     if (formData.newPassword || formData.confirmPassword || formData.currentPassword) {
       if (!formData.currentPassword) {
         setErrors(prev => ({ ...prev, currentPassword: "Current password required" }));
@@ -216,21 +184,14 @@ const ProfilePage = () => {
       }
     }
 
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // Update profile
     setProfile(prev => ({
       ...prev,
       name: formData.name,
       email: formData.email,
     }));
 
-    // Update localStorage
-    localStorage.setItem("userName", formData.name);
-    localStorage.setItem("userEmail", formData.email);
-
-    // Clear password fields
     setFormData(prev => ({
       ...prev,
       currentPassword: "",
@@ -243,9 +204,9 @@ const ProfilePage = () => {
 
   const getTransactionIcon = (type: string) => {
     switch (type) {
-      case "purchase": return <ShoppingBag className="w-5 h-5 text-green-600" />;
-      case "bonus": return <Gift className="w-5 h-5 text-blue-600" />;
-      case "referral": return <Star className="w-5 h-5 text-purple-600" />;
+      case "purchase": return <ShoppingBag className="w-5 h-5 text-emerald-600" />;
+      case "bonus": return <Gift className="w-5 h-5 text-violet-600" />;
+      case "referral": return <Star className="w-5 h-5 text-amber-600" />;
       default: return <Coins className="w-5 h-5 text-gray-600" />;
     }
   };
@@ -260,68 +221,169 @@ const ProfilePage = () => {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 flex items-center justify-center p-2">
+      <div className="min-h-screen bg-gradient-to-br from-violet-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        </div>
+        
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-3 max-w-md w-full"
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          className="text-center bg-white/10 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 p-8 max-w-md w-full relative z-10"
         >
-          <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <User className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">Please Login</h1>
-          <p className="text-gray-600 mb-6">You need to be logged in to view your profile.</p>
-          <Link
-            href="/login"
-            className="inline-flex items-center space-x-2 bg-gradient-to-r from-emerald-500 to-green-600 text-white px-6 py-3 rounded-2xl font-semibold hover:shadow-lg transition-all"
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            className="w-20 h-20 bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
           >
-            <span>Login</span>
-            <ChevronRight className="w-5 h-5" />
-          </Link>
+            <User className="w-10 h-10 text-white" />
+          </motion.div>
+          <h1 className="text-3xl font-bold text-white mb-4">Welcome Back</h1>
+          <p className="text-white/70 mb-8">Please login to access your eco profile</p>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="group inline-flex items-center space-x-2 bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500 text-white px-8 py-4 rounded-2xl font-semibold hover:shadow-lg transition-all relative overflow-hidden"
+          >
+            <span className="relative z-10">Login Now</span>
+            <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          </motion.button>
         </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 pt-20 pb-8">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        {/* <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">My Profile</h1>
-          <p className="text-gray-600">Manage your account and track your eco journey</p>
-        </motion.div> */}
+    <div className="min-h-screen bg-gradient-to-br from-[#f6eee8] via-[#fbeaff] to-[#fbeee8] pt-8 pb-8 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-violet-500/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse delay-2000"></div>
+        
+        {/* Floating particles */}
+        {isClient && particlePositions.map((particle) => (
+          <motion.div
+            key={particle.id}
+            className="absolute w-1 h-1 bg-white/20 rounded-full"
+            style={{
+              left: `${particle.left}%`,
+              top: `${particle.top}%`,
+            }}
+            animate={{
+              y: [0, -20, 0],
+              opacity: [0.2, 0.8, 0.2],
+            }}
+            transition={{
+              duration: particle.duration,
+              repeat: Infinity,
+              delay: particle.delay,
+            }}
+          />
+        ))}
+      </div>
 
-        {/* Navigation Tabs */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Hero Section with Profile Avatar */}
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-12 relative"
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            className="relative inline-block mb-6"
+          >
+            <div className="w-32 h-32 bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-500 rounded-full flex items-center justify-center shadow-2xl shadow-purple-500/25">
+              <User className="w-16 h-16 text-white" />
+            </div>
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-2 bg-gradient-to-r from-violet-500 via-emerald-500 to-violet-500 rounded-full opacity-20 blur-sm"
+            ></motion.div>
+            <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full flex items-center justify-center shadow-lg">
+              <Crown className="w-4 h-4 text-white" />
+            </div>
+          </motion.div>
+          
+          <motion.h1
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="text-5xl font-bold bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 bg-clip-text text-transparent mb-2"
+          >
+            {profile.name}
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="text-xl text-slate-600 mb-4"
+          >
+            {profile.level} • {profile.badge}
+          </motion.p>
+          
+          {/* Stats Preview */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="flex justify-center space-x-8"
+          >
+            <div className="text-center">
+              <div className="text-3xl font-bold text-emerald-600">{profile.totalEcoCoins.toLocaleString()}</div>
+              <div className="text-sm text-slate-600">Eco Coins</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-blue-600">₹{profile.totalRupeesSaved.toLocaleString()}</div>
+              <div className="text-sm text-slate-600">Saved</div>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Enhanced Navigation Tabs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="flex justify-center mb-8"
+          transition={{ delay: 1 }}
+          className="flex justify-center mb-12"
         >
-          <div className="bg-white/80 backdrop-blur-xl rounded-2xl p-2 shadow-lg border border-white/20">
+          <div className="bg-white/5 backdrop-blur-2xl rounded-3xl p-2 shadow-2xl border border-white/10">
             <div className="flex space-x-2">
               {[
-                { id: "account", label: "Account", icon: User },
-                { id: "rewards", label: "Eco Rewards", icon: Coins },
-                { id: "history", label: "History", icon: History },
+                { id: "account", label: "Account", icon: User, gradient: "from-violet-500 to-purple-600" },
+                { id: "rewards", label: "Rewards", icon: Coins, gradient: "from-emerald-500 to-green-600" },
+                { id: "history", label: "History", icon: History, gradient: "from-blue-500 to-indigo-600" },
               ].map((tab) => (
-                <button
+                <motion.button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all ${
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`group relative flex items-center space-x-3 px-8 py-4 rounded-2xl font-semibold transition-all overflow-hidden ${
                     activeTab === tab.id
-                      ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-md"
-                      : "text-gray-600 hover:text-emerald-600 hover:bg-emerald-50"
+                      ? `bg-gradient-to-r ${tab.gradient} text-white shadow-lg shadow-${tab.id === 'account' ? 'purple' : tab.id === 'rewards' ? 'emerald' : 'blue'}-500/25`
+                      : "text-slate-600 hover:text-slate-800 hover:bg-white/30"
                   }`}
                 >
-                  <tab.icon className="w-5 h-5" />
-                  <span>{tab.label}</span>
-                </button>
+                  <tab.icon className="w-5 h-5 relative z-10" />
+                  <span className="relative z-10">{tab.label}</span>
+                  {activeTab === tab.id && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent rounded-2xl"
+                      initial={false}
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    />
+                  )}
+                </motion.button>
               ))}
             </div>
           </div>
@@ -332,188 +394,287 @@ const ProfilePage = () => {
           {activeTab === "account" && (
             <motion.div
               key="account"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8"
+              initial={{ opacity: 0, x: -50, rotateY: -10 }}
+              animate={{ opacity: 1, x: 0, rotateY: 0 }}
+              exit={{ opacity: 0, x: 50, rotateY: 10 }}
+              transition={{ type: "spring", stiffness: 100, damping: 20 }}
+              className="bg-white/5 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/10 p-8 relative overflow-hidden"
             >
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">Account Information</h2>
-                <button
-                  onClick={() => setIsEditing(!isEditing)}
-                  className="flex items-center space-x-2 px-4 py-2 bg-emerald-100 text-emerald-700 rounded-xl hover:bg-emerald-200 transition-colors"
+              {/* Animated background gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-transparent to-purple-500/5 rounded-3xl"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+                      <Settings className="w-6 h-6 text-white" />
+                    </div>
+                    <h2 className="text-3xl font-bold text-slate-800">Account Settings</h2>
+                  </div>
+                  <motion.button
+                    onClick={() => setIsEditing(!isEditing)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-violet-500/20 to-purple-500/20 backdrop-blur-xl border border-violet-400/30 text-violet-700 rounded-2xl hover:from-violet-500/30 hover:to-purple-500/30 transition-all"
+                  >
+                    {isEditing ? <X className="w-5 h-5" /> : <Edit3 className="w-5 h-5" />}
+                    <span>{isEditing ? "Cancel" : "Edit Profile"}</span>
+                  </motion.button>
+                </div>
+
+                {errors.general && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-6 p-4 bg-red-500/10 border border-red-400/30 rounded-2xl text-red-300 text-sm backdrop-blur-xl"
+                  >
+                    {errors.general}
+                  </motion.div>
+                )}
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Name Field */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="space-y-3"
+                  >
+                    <label className="text-sm font-semibold text-slate-700 flex items-center space-x-2">
+                      <Sparkles className="w-4 h-4" />
+                      <span>Full Name</span>
+                    </label>
+                    <div className="relative group">
+                      <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-violet-600 transition-colors" />
+                      <input
+                        type="text"
+                        name="name"
+                        value={isEditing ? formData.name : profile.name}
+                        onChange={handleInputChange}
+                        disabled={!isEditing}
+                        className={`w-full pl-12 pr-4 py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 ${
+                          isEditing 
+                            ? "focus:border-violet-400/50 focus:bg-white/70 focus:shadow-lg focus:shadow-violet-500/10" 
+                            : "cursor-not-allowed opacity-60"
+                        }`}
+                      />
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-500/0 via-purple-500/0 to-violet-500/0 group-focus-within:from-violet-500/10 group-focus-within:via-purple-500/5 group-focus-within:to-violet-500/10 transition-all pointer-events-none"></div>
+                    </div>
+                  </motion.div>
+
+                  {/* Email Field */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="space-y-3"
+                  >
+                    <label className="text-sm font-semibold text-slate-700 flex items-center space-x-2">
+                      <Mail className="w-4 h-4" />
+                      <span>Email Address</span>
+                    </label>
+                    <div className="relative group">
+                      <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-violet-600 transition-colors" />
+                      <input
+                        type="email"
+                        name="email"
+                        value={isEditing ? formData.email : profile.email}
+                        onChange={handleInputChange}
+                        disabled={!isEditing}
+                        className={`w-full pl-12 pr-4 py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 ${
+                          isEditing 
+                            ? "focus:border-violet-400/50 focus:bg-white/70 focus:shadow-lg focus:shadow-violet-500/10" 
+                            : "cursor-not-allowed opacity-60"
+                        }`}
+                      />
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-500/0 via-purple-500/0 to-violet-500/0 group-focus-within:from-violet-500/10 group-focus-within:via-purple-500/5 group-focus-within:to-violet-500/10 transition-all pointer-events-none"></div>
+                    </div>
+                  </motion.div>
+
+                  {/* Password Fields - Only show when editing */}
+                  {isEditing && (
+                    <>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="space-y-3"
+                      >
+                        <label className="text-sm font-semibold text-slate-700 flex items-center space-x-2">
+                          <Lock className="w-4 h-4" />
+                          <span>Current Password</span>
+                        </label>
+                        <div className="relative group">
+                          <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-violet-600 transition-colors" />
+                          <input
+                            type="password"
+                            name="currentPassword"
+                            value={formData.currentPassword}
+                            onChange={handleInputChange}
+                            placeholder="Enter current password"
+                            className={`w-full pl-12 pr-4 py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 focus:border-violet-400/50 focus:bg-white/70 focus:shadow-lg focus:shadow-violet-500/10 ${
+                              errors.currentPassword ? "border-red-400/50" : ""
+                            }`}
+                          />
+                          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-500/0 via-purple-500/0 to-violet-500/0 group-focus-within:from-violet-500/10 group-focus-within:via-purple-500/5 group-focus-within:to-violet-500/10 transition-all pointer-events-none"></div>
+                        </div>
+                        {errors.currentPassword && (
+                          <motion.p
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="text-red-400 text-xs ml-1"
+                          >
+                            {errors.currentPassword}
+                          </motion.p>
+                        )}
+                      </motion.div>
+
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="space-y-3"
+                      >
+                        <label className="text-sm font-semibold text-slate-700 flex items-center space-x-2">
+                          <Zap className="w-4 h-4" />
+                          <span>New Password</span>
+                        </label>
+                        <div className="relative group">
+                          <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-violet-600 transition-colors" />
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            name="newPassword"
+                            value={formData.newPassword}
+                            onChange={handleInputChange}
+                            placeholder="Enter new password"
+                            className={`w-full pl-12 pr-12 py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 focus:border-violet-400/50 focus:bg-white/70 focus:shadow-lg focus:shadow-violet-500/10 ${
+                              errors.newPassword ? "border-red-400/50" : ""
+                            }`}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-500 hover:text-violet-600 transition-colors"
+                          >
+                            {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                          </button>
+                          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-500/0 via-purple-500/0 to-violet-500/0 group-focus-within:from-violet-500/10 group-focus-within:via-purple-500/5 group-focus-within:to-violet-500/10 transition-all pointer-events-none"></div>
+                        </div>
+                        {errors.newPassword && (
+                          <motion.p
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="text-red-400 text-xs ml-1"
+                          >
+                            {errors.newPassword}
+                          </motion.p>
+                        )}
+                      </motion.div>
+
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="space-y-3 lg:col-span-2"
+                      >
+                        <label className="text-sm font-semibold text-slate-700 flex items-center space-x-2">
+                          <Lock className="w-4 h-4" />
+                          <span>Confirm New Password</span>
+                        </label>
+                        <div className="relative group max-w-md">
+                          <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-violet-600 transition-colors" />
+                          <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            name="confirmPassword"
+                            value={formData.confirmPassword}
+                            onChange={handleInputChange}
+                            placeholder="Confirm new password"
+                            className={`w-full pl-12 pr-12 py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 focus:border-violet-400/50 focus:bg-white/70 focus:shadow-lg focus:shadow-violet-500/10 ${
+                              errors.confirmPassword ? "border-red-400/50" : ""
+                            }`}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-500 hover:text-violet-600 transition-colors"
+                          >
+                            {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                          </button>
+                          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-500/0 via-purple-500/0 to-violet-500/0 group-focus-within:from-violet-500/10 group-focus-within:via-purple-500/5 group-focus-within:to-violet-500/10 transition-all pointer-events-none"></div>
+                        </div>
+                        {errors.confirmPassword && (
+                          <motion.p
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="text-red-400 text-xs ml-1"
+                          >
+                            {errors.confirmPassword}
+                          </motion.p>
+                        )}
+                      </motion.div>
+                    </>
+                  )}
+                </div>
+
+                {/* Account Details */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6"
                 >
-                  {isEditing ? <X className="w-5 h-5" /> : <Edit3 className="w-5 h-5" />}
-                  <span>{isEditing ? "Cancel" : "Edit"}</span>
-                </button>
-              </div>
-
-              {errors.general && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
-                  {errors.general}
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Name Field */}
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-gray-700">Full Name</label>
-                  <div className="relative">
-                    <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <input
-                      type="text"
-                      name="name"
-                      value={isEditing ? formData.name : profile.name}
-                      onChange={handleInputChange}
-                      disabled={!isEditing}
-                      className={`w-full pl-12 pr-4 py-4 bg-white border-2 rounded-2xl transition-all focus:outline-none ${
-                        isEditing 
-                          ? "border-gray-200 focus:border-emerald-500" 
-                          : "border-gray-100 bg-gray-50 cursor-not-allowed"
-                      }`}
-                    />
+                  <div className="group bg-gradient-to-br from-emerald-500/10 to-green-500/10 backdrop-blur-xl rounded-2xl p-6 border border-emerald-400/20 hover:border-emerald-400/40 transition-all">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-green-500 rounded-xl flex items-center justify-center">
+                        <Calendar className="w-5 h-5 text-white" />
+                      </div>
+                      <span className="font-semibold text-emerald-700">Member Since</span>
+                    </div>
+                    <p className="text-2xl font-bold text-emerald-800">{profile.joinDate}</p>
                   </div>
-                </div>
 
-                {/* Email Field */}
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-gray-700">Email Address</label>
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <input
-                      type="email"
-                      name="email"
-                      value={isEditing ? formData.email : profile.email}
-                      onChange={handleInputChange}
-                      disabled={!isEditing}
-                      className={`w-full pl-12 pr-4 py-4 bg-white border-2 rounded-2xl transition-all focus:outline-none ${
-                        isEditing 
-                          ? "border-gray-200 focus:border-emerald-500" 
-                          : "border-gray-100 bg-gray-50 cursor-not-allowed"
-                      }`}
-                    />
+                  <div className="group bg-gradient-to-br from-blue-500/10 to-indigo-500/10 backdrop-blur-xl rounded-2xl p-6 border border-blue-400/20 hover:border-blue-400/40 transition-all">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl flex items-center justify-center">
+                        <Award className="w-5 h-5 text-white" />
+                      </div>
+                      <span className="font-semibold text-blue-700">Level</span>
+                    </div>
+                    <p className="text-2xl font-bold text-blue-800">{profile.level}</p>
                   </div>
-                </div>
 
-                {/* Password Fields - Only show when editing */}
+                  <div className="group bg-gradient-to-br from-amber-500/10 to-orange-500/10 backdrop-blur-xl rounded-2xl p-6 border border-amber-400/20 hover:border-amber-400/40 transition-all">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center">
+                        <Star className="w-5 h-5 text-white" />
+                      </div>
+                      <span className="font-semibold text-amber-700">Badge</span>
+                    </div>
+                    <p className="text-3xl">{profile.badge}</p>
+                  </div>
+                </motion.div>
+
+                {/* Save Button */}
                 {isEditing && (
-                  <>
-                    <div className="space-y-2">
-                      <label className="text-sm font-semibold text-gray-700">Current Password</label>
-                      <div className="relative">
-                        <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                        <input
-                          type="password"
-                          name="currentPassword"
-                          value={formData.currentPassword}
-                          onChange={handleInputChange}
-                          placeholder="Enter current password"
-                          className={`w-full pl-12 pr-4 py-4 bg-white border-2 rounded-2xl transition-all focus:outline-none ${
-                            errors.currentPassword ? "border-red-300" : "border-gray-200 focus:border-emerald-500"
-                          }`}
-                        />
-                      </div>
-                      {errors.currentPassword && (
-                        <p className="text-red-500 text-xs ml-1">{errors.currentPassword}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-semibold text-gray-700">New Password</label>
-                      <div className="relative">
-                        <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                        <input
-                          type={showPassword ? "text" : "password"}
-                          name="newPassword"
-                          value={formData.newPassword}
-                          onChange={handleInputChange}
-                          placeholder="Enter new password"
-                          className={`w-full pl-12 pr-12 py-4 bg-white border-2 rounded-2xl transition-all focus:outline-none ${
-                            errors.newPassword ? "border-red-300" : "border-gray-200 focus:border-emerald-500"
-                          }`}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                        >
-                          {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                        </button>
-                      </div>
-                      {errors.newPassword && (
-                        <p className="text-red-500 text-xs ml-1">{errors.newPassword}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-semibold text-gray-700">Confirm New Password</label>
-                      <div className="relative">
-                        <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                        <input
-                          type={showConfirmPassword ? "text" : "password"}
-                          name="confirmPassword"
-                          value={formData.confirmPassword}
-                          onChange={handleInputChange}
-                          placeholder="Confirm new password"
-                          className={`w-full pl-12 pr-12 py-4 bg-white border-2 rounded-2xl transition-all focus:outline-none ${
-                            errors.confirmPassword ? "border-red-300" : "border-gray-200 focus:border-emerald-500"
-                          }`}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                        >
-                          {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                        </button>
-                      </div>
-                      {errors.confirmPassword && (
-                        <p className="text-red-500 text-xs ml-1">{errors.confirmPassword}</p>
-                      )}
-                    </div>
-                  </>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7 }}
+                    className="mt-10 flex justify-end"
+                  >
+                    <motion.button
+                      onClick={handleSaveProfile}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="group flex items-center space-x-3 bg-gradient-to-r from-violet-500 to-purple-600 text-white px-8 py-4 rounded-2xl font-semibold hover:shadow-lg hover:shadow-violet-500/25 transition-all relative overflow-hidden"
+                    >
+                      <Save className="w-5 h-5 relative z-10" />
+                      <span className="relative z-10">Save Changes</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-violet-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </motion.button>
+                  </motion.div>
                 )}
               </div>
-
-              {/* Account Details */}
-              <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-6">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <Calendar className="w-6 h-6 text-emerald-600" />
-                    <span className="font-semibold text-gray-700">Member Since</span>
-                  </div>
-                  <p className="text-xl font-bold text-emerald-700">{profile.joinDate}</p>
-                </div>
-
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <Award className="w-6 h-6 text-blue-600" />
-                    <span className="font-semibold text-gray-700">Level</span>
-                  </div>
-                  <p className="text-xl font-bold text-blue-700">{profile.level}</p>
-                </div>
-
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <Star className="w-6 h-6 text-purple-600" />
-                    <span className="font-semibold text-gray-700">Badge</span>
-                  </div>
-                  <p className="text-2xl">{profile.badge}</p>
-                </div>
-              </div>
-
-              {/* Save Button */}
-              {isEditing && (
-                <div className="mt-8 flex justify-end">
-                  <button
-                    onClick={handleSaveProfile}
-                    className="flex items-center space-x-2 bg-gradient-to-r from-emerald-500 to-green-600 text-white px-6 py-3 rounded-2xl font-semibold hover:shadow-lg transition-all"
-                  >
-                    <Save className="w-5 h-5" />
-                    <span>Save Changes</span>
-                  </button>
-                </div>
-              )}
             </motion.div>
           )}
 
@@ -521,99 +682,141 @@ const ProfilePage = () => {
           {activeTab === "rewards" && (
             <motion.div
               key="rewards"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: -50, rotateY: -10 }}
+              animate={{ opacity: 1, x: 0, rotateY: 0 }}
+              exit={{ opacity: 0, x: 50, rotateY: 10 }}
+              transition={{ type: "spring", stiffness: 100, damping: 20 }}
               className="space-y-8"
             >
               {/* Rewards Summary */}
-              <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">Eco Rewards Summary</h2>
+              <div className="bg-white/5 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/10 p-8 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-green-500/5 rounded-3xl"></div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Total Eco Coins */}
-                  <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-3">
-                        <Coins className="w-8 h-8" />
-                        <span className="text-lg font-semibold">Total Eco Coins</span>
-                      </div>
-                      <TrendingUp className="w-6 h-6" />
+                <div className="relative z-10">
+                  <div className="flex items-center space-x-4 mb-8">
+                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
+                      <Coins className="w-6 h-6 text-white" />
                     </div>
-                    <p className="text-3xl font-bold">{profile.totalEcoCoins.toLocaleString()}</p>
-                    <p className="text-green-100 text-sm mt-2">Keep earning more!</p>
+                    <h2 className="text-3xl font-bold text-slate-800">Eco Rewards</h2>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    {/* Total Eco Coins */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.1 }}
+                      className="group bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl p-6 text-white hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <Coins className="w-8 h-8" />
+                          <span className="text-lg font-semibold">Total Eco Coins</span>
+                        </div>
+                        <TrendingUp className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <p className="text-4xl font-bold mb-2">{profile.totalEcoCoins.toLocaleString()}</p>
+                      <p className="text-emerald-100 text-sm">Keep earning more!</p>
+                    </motion.div>
+
+                    {/* Rupees Saved */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.2 }}
+                      className="group bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white hover:shadow-lg hover:shadow-blue-500/25 transition-all"
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <IndianRupee className="w-8 h-8" />
+                          <span className="text-lg font-semibold">Rupees Saved</span>
+                        </div>
+                        <TrendingUp className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <p className="text-4xl font-bold mb-2">₹{profile.totalRupeesSaved.toLocaleString()}</p>
+                      <p className="text-blue-100 text-sm">Through eco choices</p>
+                    </motion.div>
                   </div>
 
-                  {/* Rupees Saved */}
-                  <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-3">
-                        <IndianRupee className="w-8 h-8" />
-                        <span className="text-lg font-semibold">Rupees Saved</span>
-                      </div>
-                      <TrendingUp className="w-6 h-6" />
+                  {/* Conversion Rate */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 backdrop-blur-xl rounded-2xl p-6 border border-amber-400/20"
+                  >
+                    <div className="flex items-center space-x-3 mb-3">
+                      <Leaf className="w-6 h-6 text-amber-600" />
+                      <span className="font-semibold text-amber-700">Conversion Rate</span>
                     </div>
-                    <p className="text-3xl font-bold">₹{profile.totalRupeesSaved.toLocaleString()}</p>
-                    <p className="text-blue-100 text-sm mt-2">Through eco choices</p>
-                  </div>
-                </div>
-
-                {/* Conversion Rate */}
-                <div className="mt-6 bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-6 border border-amber-200">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <Leaf className="w-6 h-6 text-amber-600" />
-                    <span className="font-semibold text-gray-700">Conversion Rate</span>
-                  </div>
-                  <p className="text-lg text-gray-600">
-                    <span className="font-bold text-amber-600">2 Eco Coins = ₹1</span>
-                  </p>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Your {profile.totalEcoCoins} eco coins are worth ₹{(profile.totalEcoCoins / 2).toFixed(0)}
-                  </p>
+                    <p className="text-lg text-slate-700 mb-2">
+                      <span className="font-bold text-amber-600">2 Eco Coins = ₹1</span>
+                    </p>
+                    <p className="text-sm text-slate-600">
+                      Your {profile.totalEcoCoins} eco coins are worth ₹{(profile.totalEcoCoins / 2).toFixed(0)}
+                    </p>
+                  </motion.div>
                 </div>
               </div>
 
               {/* Achievements */}
-              <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8">
-                <h3 className="text-xl font-bold text-gray-800 mb-6">Eco Achievements</h3>
+              <div className="bg-white/5 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/10 p-8 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-violet-500/5 rounded-3xl"></div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {[
-                    { title: "First Purchase", desc: "Made your first eco-friendly purchase", earned: true, coins: 100 },
-                    { title: "Green Streak", desc: "7 days of sustainable choices", earned: true, coins: 200 },
-                    { title: "Eco Champion", desc: "Earned 2000+ eco coins", earned: true, coins: 500 },
-                    { title: "Tree Hugger", desc: "Saved equivalent of 5 trees", earned: false, coins: 300 },
-                    { title: "Carbon Saver", desc: "Reduced 100kg CO2 emissions", earned: false, coins: 400 },
-                    { title: "Eco Influencer", desc: "Refer 10 friends", earned: false, coins: 1000 },
-                  ].map((achievement, index) => (
-                    <div
-                      key={index}
-                      className={`p-4 rounded-2xl border-2 transition-all ${
-                        achievement.earned
-                          ? "bg-gradient-to-br from-green-50 to-emerald-50 border-green-200"
-                          : "bg-gray-50 border-gray-200"
-                      }`}
-                    >
-                      <div className="flex items-center space-x-3 mb-2">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          achievement.earned ? "bg-green-500" : "bg-gray-400"
-                        }`}>
-                          {achievement.earned ? "✓" : "○"}
-                        </div>
-                        <span className={`font-semibold ${
-                          achievement.earned ? "text-green-700" : "text-gray-500"
-                        }`}>
-                          {achievement.title}
-                        </span>
-                      </div>
-                      <p className="text-sm text-gray-600 mb-2">{achievement.desc}</p>
-                      <p className={`text-xs font-medium ${
-                        achievement.earned ? "text-green-600" : "text-gray-400"
-                      }`}>
-                        +{achievement.coins} Eco Coins
-                      </p>
+                <div className="relative z-10">
+                  <div className="flex items-center space-x-4 mb-8">
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg">
+                      <Award className="w-6 h-6 text-white" />
                     </div>
-                  ))}
+                    <h3 className="text-2xl font-bold text-slate-800">Eco Achievements</h3>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {[
+                      { title: "First Purchase", desc: "Made your first eco-friendly purchase", earned: true, coins: 100, icon: "🛍️" },
+                      { title: "Green Streak", desc: "7 days of sustainable choices", earned: true, coins: 200, icon: "🔥" },
+                      { title: "Eco Champion", desc: "Earned 2000+ eco coins", earned: true, coins: 500, icon: "👑" },
+                      { title: "Tree Hugger", desc: "Saved equivalent of 5 trees", earned: false, coins: 300, icon: "🌳" },
+                      { title: "Carbon Saver", desc: "Reduced 100kg CO2 emissions", earned: false, coins: 400, icon: "🌍" },
+                      { title: "Eco Influencer", desc: "Refer 10 friends", earned: false, coins: 1000, icon: "📢" },
+                    ].map((achievement, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className={`group p-6 rounded-2xl border-2 transition-all hover:scale-105 ${
+                          achievement.earned
+                            ? "bg-gradient-to-br from-emerald-500/10 to-green-500/10 border-emerald-400/30 hover:border-emerald-400/50"
+                            : "bg-white/5 border-white/10 hover:border-white/20"
+                        }`}
+                      >
+                        <div className="flex items-center space-x-3 mb-3">
+                          <div className={`text-2xl ${achievement.earned ? "grayscale-0" : "grayscale opacity-50"}`}>
+                            {achievement.icon}
+                          </div>
+                          <span className={`font-semibold ${
+                            achievement.earned ? "text-emerald-700" : "text-slate-600"
+                          }`}>
+                            {achievement.title}
+                          </span>
+                        </div>
+                        <p className="text-sm text-slate-600 mb-3">{achievement.desc}</p>
+                        <div className="flex items-center justify-between">
+                          <p className={`text-xs font-medium ${
+                            achievement.earned ? "text-emerald-600" : "text-slate-500"
+                          }`}>
+                            +{achievement.coins} Eco Coins
+                          </p>
+                          {achievement.earned && (
+                            <div className="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center">
+                              <span className="text-white text-xs">✓</span>
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -623,49 +826,72 @@ const ProfilePage = () => {
           {activeTab === "history" && (
             <motion.div
               key="history"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8"
+              initial={{ opacity: 0, x: -50, rotateY: -10 }}
+              animate={{ opacity: 1, x: 0, rotateY: 0 }}
+              exit={{ opacity: 0, x: 50, rotateY: 10 }}
+              transition={{ type: "spring", stiffness: 100, damping: 20 }}
+              className="bg-white/5 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/10 p-8 relative overflow-hidden"
             >
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Transaction History</h2>
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-indigo-500/5 rounded-3xl"></div>
               
-              <div className="space-y-4">
-                {transactions.map((transaction) => (
-                  <div
-                    key={transaction.id}
-                    className="flex items-center justify-between p-6 bg-gradient-to-r from-gray-50 to-white rounded-2xl border border-gray-200 hover:shadow-md transition-all"
-                  >
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-green-100 rounded-2xl flex items-center justify-center">
-                        {getTransactionIcon(transaction.type)}
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-800">{transaction.productName}</h4>
-                        <p className="text-sm text-gray-600">{transaction.description}</p>
-                        <p className="text-xs text-gray-500">{formatDate(transaction.date)}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="text-right">
-                      <div className="flex items-center space-x-2 mb-1">
-                        <Coins className="w-4 h-4 text-amber-500" />
-                        <span className="font-bold text-green-600">+{transaction.ecoCoins}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <IndianRupee className="w-4 h-4 text-blue-500" />
-                        <span className="font-medium text-blue-600">₹{transaction.rupees}</span>
-                      </div>
-                    </div>
+              <div className="relative z-10">
+                <div className="flex items-center space-x-4 mb-8">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+                    <History className="w-6 h-6 text-white" />
                   </div>
-                ))}
-              </div>
+                  <h2 className="text-3xl font-bold text-slate-800">Transaction History</h2>
+                </div>
+                
+                <div className="space-y-4">
+                  {transactions.map((transaction, index) => (
+                    <motion.div
+                      key={transaction.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="group flex items-center justify-between p-6 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all"
+                    >
+                      <div className="flex items-center space-x-4">
+                        <div className="w-14 h-14 bg-gradient-to-br from-emerald-500/20 to-green-500/20 backdrop-blur-xl rounded-2xl flex items-center justify-center border border-emerald-400/20">
+                          {getTransactionIcon(transaction.type)}
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-slate-800 mb-1">{transaction.productName}</h4>
+                          <p className="text-sm text-slate-600 mb-1">{transaction.description}</p>
+                          <p className="text-xs text-slate-500">{formatDate(transaction.date)}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="text-right">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <Coins className="w-4 h-4 text-amber-500" />
+                          <span className="font-bold text-emerald-600">+{transaction.ecoCoins}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <IndianRupee className="w-4 h-4 text-blue-500" />
+                          <span className="font-medium text-blue-600">₹{transaction.rupees}</span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
 
-              {/* Load More Button */}
-              <div className="text-center mt-8">
-                <button className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white rounded-2xl font-semibold hover:shadow-lg transition-all">
-                  Load More Transactions
-                </button>
+                {/* Load More Button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="text-center mt-8"
+                >
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-2xl font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all relative overflow-hidden"
+                  >
+                    <span className="relative z-10">Load More Transactions</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  </motion.button>
+                </motion.div>
               </div>
             </motion.div>
           )}
@@ -676,28 +902,34 @@ const ProfilePage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="mt-8 text-center"
+          className="mt-12 text-center"
         >
-          <div className="flex justify-center space-x-4">
-            <Link
+          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <motion.a
               href="/"
-              className="flex items-center space-x-2 px-6 py-3 bg-white/80 backdrop-blur-xl rounded-2xl border border-white/20 text-gray-600 hover:text-emerald-600 transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="group flex items-center space-x-2 px-6 py-3 bg-white/20 backdrop-blur-xl rounded-2xl border border-white/30 text-slate-700 hover:text-slate-800 hover:border-white/50 transition-all"
             >
-              <span>← Back to Home</span>
-            </Link>
+              <ChevronRight className="w-5 h-5 rotate-180" />
+              <span>Back to Home</span>
+            </motion.a>
             
-            <button
+            <motion.button
               onClick={() => {
                 localStorage.removeItem("isLoggedIn");
                 localStorage.removeItem("userName");
                 localStorage.removeItem("userEmail");
-                window.location.href = "/";
+                window.dispatchEvent(new Event("logout"));
+                setIsLoggedIn(false);
               }}
-              className="flex items-center space-x-2 px-6 py-3 bg-red-100 text-red-600 rounded-2xl hover:bg-red-200 transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="group flex items-center space-x-2 px-6 py-3 bg-red-500/20 border border-red-400/50 text-red-600 rounded-2xl hover:bg-red-500/30 hover:border-red-400/70 transition-all"
             >
               <LogOut className="w-5 h-5" />
               <span>Logout</span>
-            </button>
+            </motion.button>
           </div>
         </motion.div>
       </div>

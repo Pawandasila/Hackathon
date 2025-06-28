@@ -35,11 +35,11 @@ export default function Footer() {
         {isInView && (
           <div className="absolute inset-0 z-50 pointer-events-auto">
             <Ballpit
-              count={100}
+              count={150}
               gravity={0.5}
               friction={0.9975}
               wallBounce={0.95}
-              followCursor={true}
+              followCursor={false}
               colors={[
                 0x10b981, // emerald-500
                 0x059669, // emerald-600  
@@ -53,6 +53,9 @@ export default function Footer() {
                 0x14b8a6, // teal-500
                 0x0d9488, // teal-600
                 0x0f766e, // teal-700
+                0x84cc16, // lime-500
+                0x65a30d, // lime-600
+                0x16a085, // teal-400
               ]}
             />
           </div>

@@ -95,7 +95,8 @@ const NavActions: React.FC<NavActionsProps> = ({ showHamburger, scrolled }) => {
       localStorage.removeItem("userName");
       localStorage.removeItem("userEmail");
       
-      // Trigger storage event for immediate UI update
+      // Trigger custom logout event for immediate UI update
+      window.dispatchEvent(new Event('logout'));
       window.dispatchEvent(new Event('storage'));
     } else if (action === "login") {
       // Navigate to client login page
@@ -103,6 +104,9 @@ const NavActions: React.FC<NavActionsProps> = ({ showHamburger, scrolled }) => {
     } else if (action === "signup") {
       // Navigate to client signup page
       window.location.href = "/signup";
+    } else if (action === "profile") {
+      // Navigate to profile page
+      window.location.href = "/profile";
     }
   };
 

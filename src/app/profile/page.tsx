@@ -258,12 +258,12 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f6eee8] via-[#fbeaff] to-[#fbeee8] pt-8 pb-8 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#f6eee8] via-[#fbeaff] to-[#fbeee8] pt-4 pb-4 sm:pt-8 sm:pb-8 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-violet-500/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse delay-2000"></div>
+        <div className="absolute top-0 left-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-violet-500/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/2 right-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-emerald-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/2 w-48 h-48 sm:w-96 sm:h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse delay-2000"></div>
         
         {/* Floating particles */}
         {isClient && particlePositions.map((particle) => (
@@ -292,24 +292,24 @@ const ProfilePage = () => {
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12 relative"
+          className="text-center mb-8 sm:mb-12 relative"
         >
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="relative inline-block mb-6"
+            className="relative inline-block mb-4 sm:mb-6"
           >
-            <div className="w-32 h-32 bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-500 rounded-full flex items-center justify-center shadow-2xl shadow-purple-500/25">
-              <User className="w-16 h-16 text-white" />
+            <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-500 rounded-full flex items-center justify-center shadow-2xl shadow-purple-500/25">
+              <User className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
             </div>
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="absolute -inset-2 bg-gradient-to-r from-violet-500 via-emerald-500 to-violet-500 rounded-full opacity-20 blur-sm"
+              className="absolute -inset-1 sm:-inset-2 bg-gradient-to-r from-violet-500 via-emerald-500 to-violet-500 rounded-full opacity-20 blur-sm"
             ></motion.div>
-            <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full flex items-center justify-center shadow-lg">
-              <Crown className="w-4 h-4 text-white" />
+            <div className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full flex items-center justify-center shadow-lg">
+              <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
             </div>
           </motion.div>
           
@@ -317,7 +317,7 @@ const ProfilePage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-5xl font-bold bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 bg-clip-text text-transparent mb-2"
+            className="text-3xl sm:text-5xl font-bold bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 bg-clip-text text-transparent mb-2"
           >
             {profile.name}
           </motion.h1>
@@ -325,7 +325,7 @@ const ProfilePage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="text-xl text-slate-600 mb-4"
+            className="text-lg sm:text-xl text-slate-600 mb-3 sm:mb-4"
           >
             {profile.level} • {profile.badge}
           </motion.p>
@@ -335,15 +335,15 @@ const ProfilePage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="flex justify-center space-x-8"
+            className="flex justify-center space-x-4 sm:space-x-8"
           >
             <div className="text-center">
-              <div className="text-3xl font-bold text-emerald-600">{profile.totalEcoCoins.toLocaleString()}</div>
-              <div className="text-sm text-slate-600">Eco Coins</div>
+              <div className="text-2xl sm:text-3xl font-bold text-emerald-600">{profile.totalEcoCoins.toLocaleString()}</div>
+              <div className="text-xs sm:text-sm text-slate-600">Eco Coins</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600">₹{profile.totalRupeesSaved.toLocaleString()}</div>
-              <div className="text-sm text-slate-600">Saved</div>
+              <div className="text-2xl sm:text-3xl font-bold text-blue-600">₹{profile.totalRupeesSaved.toLocaleString()}</div>
+              <div className="text-xs sm:text-sm text-slate-600">Saved</div>
             </div>
           </motion.div>
         </motion.div>
@@ -353,10 +353,10 @@ const ProfilePage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
-          className="flex justify-center mb-12"
+          className="flex justify-center mb-8 sm:mb-12 px-2"
         >
-          <div className="bg-white/5 backdrop-blur-2xl rounded-3xl p-2 shadow-2xl border border-white/10">
-            <div className="flex space-x-2">
+          <div className="bg-white/5 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-1 sm:p-2 shadow-2xl border border-white/10 w-full max-w-md sm:max-w-none">
+            <div className="flex flex-col sm:flex-row space-y-1 sm:space-y-0 sm:space-x-2">
               {[
                 { id: "account", label: "Account", icon: User, gradient: "from-violet-500 to-purple-600" },
                 { id: "rewards", label: "Rewards", icon: Coins, gradient: "from-emerald-500 to-green-600" },
@@ -365,20 +365,20 @@ const ProfilePage = () => {
                 <motion.button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`group relative flex items-center space-x-3 px-8 py-4 rounded-2xl font-semibold transition-all overflow-hidden ${
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`group relative flex items-center justify-center sm:justify-start space-x-2 sm:space-x-3 px-4 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base transition-all overflow-hidden ${
                     activeTab === tab.id
                       ? `bg-gradient-to-r ${tab.gradient} text-white shadow-lg shadow-${tab.id === 'account' ? 'purple' : tab.id === 'rewards' ? 'emerald' : 'blue'}-500/25`
                       : "text-slate-600 hover:text-slate-800 hover:bg-white/30"
                   }`}
                 >
-                  <tab.icon className="w-5 h-5 relative z-10" />
+                  <tab.icon className="w-4 h-4 sm:w-5 sm:h-5 relative z-10" />
                   <span className="relative z-10">{tab.label}</span>
                   {activeTab === tab.id && (
                     <motion.div
                       layoutId="activeTab"
-                      className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent rounded-2xl"
+                      className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent rounded-xl sm:rounded-2xl"
                       initial={false}
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                     />
@@ -398,26 +398,26 @@ const ProfilePage = () => {
               animate={{ opacity: 1, x: 0, rotateY: 0 }}
               exit={{ opacity: 0, x: 50, rotateY: 10 }}
               transition={{ type: "spring", stiffness: 100, damping: 20 }}
-              className="bg-white/5 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/10 p-8 relative overflow-hidden"
+              className="bg-white/5 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/10 p-4 sm:p-8 relative overflow-hidden"
             >
               {/* Animated background gradient */}
-              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-transparent to-purple-500/5 rounded-3xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-transparent to-purple-500/5 rounded-2xl sm:rounded-3xl"></div>
               
               <div className="relative z-10">
-                <div className="flex items-center justify-between mb-8">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-                      <Settings className="w-6 h-6 text-white" />
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8 space-y-4 sm:space-y-0">
+                  <div className="flex items-center space-x-3 sm:space-x-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
+                      <Settings className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
-                    <h2 className="text-3xl font-bold text-slate-800">Account Settings</h2>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-slate-800">Account Settings</h2>
                   </div>
                   <motion.button
                     onClick={() => setIsEditing(!isEditing)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="group flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-violet-500/20 to-purple-500/20 backdrop-blur-xl border border-violet-400/30 text-violet-700 rounded-2xl hover:from-violet-500/30 hover:to-purple-500/30 transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="group flex items-center justify-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-violet-500/20 to-purple-500/20 backdrop-blur-xl border border-violet-400/30 text-violet-700 rounded-xl sm:rounded-2xl hover:from-violet-500/30 hover:to-purple-500/30 transition-all text-sm sm:text-base"
                   >
-                    {isEditing ? <X className="w-5 h-5" /> : <Edit3 className="w-5 h-5" />}
+                    {isEditing ? <X className="w-4 h-4 sm:w-5 sm:h-5" /> : <Edit3 className="w-4 h-4 sm:w-5 sm:h-5" />}
                     <span>{isEditing ? "Cancel" : "Edit Profile"}</span>
                   </motion.button>
                 </div>
@@ -432,7 +432,7 @@ const ProfilePage = () => {
                   </motion.div>
                 )}
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
                   {/* Name Field */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -452,7 +452,7 @@ const ProfilePage = () => {
                         value={isEditing ? formData.name : profile.name}
                         onChange={handleInputChange}
                         disabled={!isEditing}
-                        className={`w-full pl-12 pr-4 py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 ${
+                        className={`w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-xl sm:rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 text-sm sm:text-base ${
                           isEditing 
                             ? "focus:border-violet-400/50 focus:bg-white/70 focus:shadow-lg focus:shadow-violet-500/10" 
                             : "cursor-not-allowed opacity-60"
@@ -481,7 +481,7 @@ const ProfilePage = () => {
                         value={isEditing ? formData.email : profile.email}
                         onChange={handleInputChange}
                         disabled={!isEditing}
-                        className={`w-full pl-12 pr-4 py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 ${
+                        className={`w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-xl sm:rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 text-sm sm:text-base ${
                           isEditing 
                             ? "focus:border-violet-400/50 focus:bg-white/70 focus:shadow-lg focus:shadow-violet-500/10" 
                             : "cursor-not-allowed opacity-60"
@@ -512,7 +512,7 @@ const ProfilePage = () => {
                             value={formData.currentPassword}
                             onChange={handleInputChange}
                             placeholder="Enter current password"
-                            className={`w-full pl-12 pr-4 py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 focus:border-violet-400/50 focus:bg-white/70 focus:shadow-lg focus:shadow-violet-500/10 ${
+                            className={`w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-xl sm:rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 text-sm sm:text-base focus:border-violet-400/50 focus:bg-white/70 focus:shadow-lg focus:shadow-violet-500/10 ${
                               errors.currentPassword ? "border-red-400/50" : ""
                             }`}
                           />
@@ -547,7 +547,7 @@ const ProfilePage = () => {
                             value={formData.newPassword}
                             onChange={handleInputChange}
                             placeholder="Enter new password"
-                            className={`w-full pl-12 pr-12 py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 focus:border-violet-400/50 focus:bg-white/70 focus:shadow-lg focus:shadow-violet-500/10 ${
+                            className={`w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-xl sm:rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 text-sm sm:text-base focus:border-violet-400/50 focus:bg-white/70 focus:shadow-lg focus:shadow-violet-500/10 ${
                               errors.newPassword ? "border-red-400/50" : ""
                             }`}
                           />
@@ -589,7 +589,7 @@ const ProfilePage = () => {
                             value={formData.confirmPassword}
                             onChange={handleInputChange}
                             placeholder="Confirm new password"
-                            className={`w-full pl-12 pr-12 py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 focus:border-violet-400/50 focus:bg-white/70 focus:shadow-lg focus:shadow-violet-500/10 ${
+                            className={`w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-4 bg-white/50 backdrop-blur-xl border border-white/30 rounded-xl sm:rounded-2xl transition-all focus:outline-none text-slate-800 placeholder-slate-500 text-sm sm:text-base focus:border-violet-400/50 focus:bg-white/70 focus:shadow-lg focus:shadow-violet-500/10 ${
                               errors.confirmPassword ? "border-red-400/50" : ""
                             }`}
                           />
@@ -621,36 +621,36 @@ const ProfilePage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6"
+                  className="mt-6 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
                 >
-                  <div className="group bg-gradient-to-br from-emerald-500/10 to-green-500/10 backdrop-blur-xl rounded-2xl p-6 border border-emerald-400/20 hover:border-emerald-400/40 transition-all">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-green-500 rounded-xl flex items-center justify-center">
-                        <Calendar className="w-5 h-5 text-white" />
+                  <div className="group bg-gradient-to-br from-emerald-500/10 to-green-500/10 backdrop-blur-xl rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-emerald-400/20 hover:border-emerald-400/40 transition-all">
+                    <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-emerald-400 to-green-500 rounded-lg sm:rounded-xl flex items-center justify-center">
+                        <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                       </div>
-                      <span className="font-semibold text-emerald-700">Member Since</span>
+                      <span className="font-semibold text-emerald-700 text-sm sm:text-base">Member Since</span>
                     </div>
-                    <p className="text-2xl font-bold text-emerald-800">{profile.joinDate}</p>
+                    <p className="text-lg sm:text-2xl font-bold text-emerald-800">{profile.joinDate}</p>
                   </div>
 
-                  <div className="group bg-gradient-to-br from-blue-500/10 to-indigo-500/10 backdrop-blur-xl rounded-2xl p-6 border border-blue-400/20 hover:border-blue-400/40 transition-all">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl flex items-center justify-center">
-                        <Award className="w-5 h-5 text-white" />
+                  <div className="group bg-gradient-to-br from-blue-500/10 to-indigo-500/10 backdrop-blur-xl rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-blue-400/20 hover:border-blue-400/40 transition-all">
+                    <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg sm:rounded-xl flex items-center justify-center">
+                        <Award className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                       </div>
-                      <span className="font-semibold text-blue-700">Level</span>
+                      <span className="font-semibold text-blue-700 text-sm sm:text-base">Level</span>
                     </div>
-                    <p className="text-2xl font-bold text-blue-800">{profile.level}</p>
+                    <p className="text-lg sm:text-2xl font-bold text-blue-800">{profile.level}</p>
                   </div>
 
-                  <div className="group bg-gradient-to-br from-amber-500/10 to-orange-500/10 backdrop-blur-xl rounded-2xl p-6 border border-amber-400/20 hover:border-amber-400/40 transition-all">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center">
-                        <Star className="w-5 h-5 text-white" />
+                  <div className="group bg-gradient-to-br from-amber-500/10 to-orange-500/10 backdrop-blur-xl rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-amber-400/20 hover:border-amber-400/40 transition-all sm:col-span-2 md:col-span-1">
+                    <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg sm:rounded-xl flex items-center justify-center">
+                        <Star className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                       </div>
-                      <span className="font-semibold text-amber-700">Badge</span>
+                      <span className="font-semibold text-amber-700 text-sm sm:text-base">Badge</span>
                     </div>
-                    <p className="text-3xl">{profile.badge}</p>
+                    <p className="text-2xl sm:text-3xl">{profile.badge}</p>
                   </div>
                 </motion.div>
 
@@ -660,15 +660,15 @@ const ProfilePage = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.7 }}
-                    className="mt-10 flex justify-end"
+                    className="mt-6 sm:mt-10 flex justify-center sm:justify-end"
                   >
                     <motion.button
                       onClick={handleSaveProfile}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="group flex items-center space-x-3 bg-gradient-to-r from-violet-500 to-purple-600 text-white px-8 py-4 rounded-2xl font-semibold hover:shadow-lg hover:shadow-violet-500/25 transition-all relative overflow-hidden"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="group flex items-center justify-center space-x-2 sm:space-x-3 bg-gradient-to-r from-violet-500 to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold hover:shadow-lg hover:shadow-violet-500/25 transition-all relative overflow-hidden w-full sm:w-auto text-sm sm:text-base"
                     >
-                      <Save className="w-5 h-5 relative z-10" />
+                      <Save className="w-4 h-4 sm:w-5 sm:h-5 relative z-10" />
                       <span className="relative z-10">Save Changes</span>
                       <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-violet-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </motion.button>
@@ -686,37 +686,37 @@ const ProfilePage = () => {
               animate={{ opacity: 1, x: 0, rotateY: 0 }}
               exit={{ opacity: 0, x: 50, rotateY: 10 }}
               transition={{ type: "spring", stiffness: 100, damping: 20 }}
-              className="space-y-8"
+              className="space-y-6 sm:space-y-8"
             >
               {/* Rewards Summary */}
-              <div className="bg-white/5 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/10 p-8 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-green-500/5 rounded-3xl"></div>
+              <div className="bg-white/5 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/10 p-4 sm:p-8 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-green-500/5 rounded-2xl sm:rounded-3xl"></div>
                 
                 <div className="relative z-10">
-                  <div className="flex items-center space-x-4 mb-8">
-                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
-                      <Coins className="w-6 h-6 text-white" />
+                  <div className="flex items-center space-x-3 sm:space-x-4 mb-6 sm:mb-8">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
+                      <Coins className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
-                    <h2 className="text-3xl font-bold text-slate-800">Eco Rewards</h2>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-slate-800">Eco Rewards</h2>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
                     {/* Total Eco Coins */}
                     <motion.div
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.1 }}
-                      className="group bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl p-6 text-white hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
+                      className="group bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
                     >
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center space-x-3">
-                          <Coins className="w-8 h-8" />
-                          <span className="text-lg font-semibold">Total Eco Coins</span>
+                      <div className="flex items-center justify-between mb-3 sm:mb-4">
+                        <div className="flex items-center space-x-2 sm:space-x-3">
+                          <Coins className="w-6 h-6 sm:w-8 sm:h-8" />
+                          <span className="text-sm sm:text-lg font-semibold">Total Eco Coins</span>
                         </div>
-                        <TrendingUp className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                        <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
                       </div>
-                      <p className="text-4xl font-bold mb-2">{profile.totalEcoCoins.toLocaleString()}</p>
-                      <p className="text-emerald-100 text-sm">Keep earning more!</p>
+                      <p className="text-3xl sm:text-4xl font-bold mb-2">{profile.totalEcoCoins.toLocaleString()}</p>
+                      <p className="text-emerald-100 text-xs sm:text-sm">Keep earning more!</p>
                     </motion.div>
 
                     {/* Rupees Saved */}
@@ -724,17 +724,17 @@ const ProfilePage = () => {
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.2 }}
-                      className="group bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white hover:shadow-lg hover:shadow-blue-500/25 transition-all"
+                      className="group bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white hover:shadow-lg hover:shadow-blue-500/25 transition-all"
                     >
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center space-x-3">
-                          <IndianRupee className="w-8 h-8" />
-                          <span className="text-lg font-semibold">Rupees Saved</span>
+                      <div className="flex items-center justify-between mb-3 sm:mb-4">
+                        <div className="flex items-center space-x-2 sm:space-x-3">
+                          <IndianRupee className="w-6 h-6 sm:w-8 sm:h-8" />
+                          <span className="text-sm sm:text-lg font-semibold">Rupees Saved</span>
                         </div>
-                        <TrendingUp className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                        <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
                       </div>
-                      <p className="text-4xl font-bold mb-2">₹{profile.totalRupeesSaved.toLocaleString()}</p>
-                      <p className="text-blue-100 text-sm">Through eco choices</p>
+                      <p className="text-3xl sm:text-4xl font-bold mb-2">₹{profile.totalRupeesSaved.toLocaleString()}</p>
+                      <p className="text-blue-100 text-xs sm:text-sm">Through eco choices</p>
                     </motion.div>
                   </div>
 
@@ -743,16 +743,16 @@ const ProfilePage = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 backdrop-blur-xl rounded-2xl p-6 border border-amber-400/20"
+                    className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 backdrop-blur-xl rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-amber-400/20"
                   >
-                    <div className="flex items-center space-x-3 mb-3">
-                      <Leaf className="w-6 h-6 text-amber-600" />
-                      <span className="font-semibold text-amber-700">Conversion Rate</span>
+                    <div className="flex items-center space-x-2 sm:space-x-3 mb-2 sm:mb-3">
+                      <Leaf className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600" />
+                      <span className="font-semibold text-amber-700 text-sm sm:text-base">Conversion Rate</span>
                     </div>
-                    <p className="text-lg text-slate-700 mb-2">
+                    <p className="text-base sm:text-lg text-slate-700 mb-2">
                       <span className="font-bold text-amber-600">2 Eco Coins = ₹1</span>
                     </p>
-                    <p className="text-sm text-slate-600">
+                    <p className="text-xs sm:text-sm text-slate-600">
                       Your {profile.totalEcoCoins} eco coins are worth ₹{(profile.totalEcoCoins / 2).toFixed(0)}
                     </p>
                   </motion.div>
@@ -760,18 +760,18 @@ const ProfilePage = () => {
               </div>
 
               {/* Achievements */}
-              <div className="bg-white/5 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/10 p-8 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-violet-500/5 rounded-3xl"></div>
+              <div className="bg-white/5 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/10 p-4 sm:p-8 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-violet-500/5 rounded-2xl sm:rounded-3xl"></div>
                 
                 <div className="relative z-10">
-                  <div className="flex items-center space-x-4 mb-8">
-                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg">
-                      <Award className="w-6 h-6 text-white" />
+                  <div className="flex items-center space-x-3 sm:space-x-4 mb-6 sm:mb-8">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
+                      <Award className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold text-slate-800">Eco Achievements</h3>
+                    <h3 className="text-xl sm:text-2xl font-bold text-slate-800">Eco Achievements</h3>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                     {[
                       { title: "First Purchase", desc: "Made your first eco-friendly purchase", earned: true, coins: 100, icon: "🛍️" },
                       { title: "Green Streak", desc: "7 days of sustainable choices", earned: true, coins: 200, icon: "🔥" },
@@ -785,23 +785,23 @@ const ProfilePage = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className={`group p-6 rounded-2xl border-2 transition-all hover:scale-105 ${
+                        className={`group p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 transition-all hover:scale-105 ${
                           achievement.earned
                             ? "bg-gradient-to-br from-emerald-500/10 to-green-500/10 border-emerald-400/30 hover:border-emerald-400/50"
                             : "bg-white/5 border-white/10 hover:border-white/20"
                         }`}
                       >
-                        <div className="flex items-center space-x-3 mb-3">
-                          <div className={`text-2xl ${achievement.earned ? "grayscale-0" : "grayscale opacity-50"}`}>
+                        <div className="flex items-center space-x-2 sm:space-x-3 mb-2 sm:mb-3">
+                          <div className={`text-lg sm:text-2xl ${achievement.earned ? "grayscale-0" : "grayscale opacity-50"}`}>
                             {achievement.icon}
                           </div>
-                          <span className={`font-semibold ${
+                          <span className={`font-semibold text-sm sm:text-base ${
                             achievement.earned ? "text-emerald-700" : "text-slate-600"
                           }`}>
                             {achievement.title}
                           </span>
                         </div>
-                        <p className="text-sm text-slate-600 mb-3">{achievement.desc}</p>
+                        <p className="text-xs sm:text-sm text-slate-600 mb-2 sm:mb-3">{achievement.desc}</p>
                         <div className="flex items-center justify-between">
                           <p className={`text-xs font-medium ${
                             achievement.earned ? "text-emerald-600" : "text-slate-500"
@@ -809,7 +809,7 @@ const ProfilePage = () => {
                             +{achievement.coins} Eco Coins
                           </p>
                           {achievement.earned && (
-                            <div className="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center">
+                            <div className="w-5 h-5 sm:w-6 sm:h-6 bg-emerald-500 rounded-full flex items-center justify-center">
                               <span className="text-white text-xs">✓</span>
                             </div>
                           )}
@@ -830,46 +830,46 @@ const ProfilePage = () => {
               animate={{ opacity: 1, x: 0, rotateY: 0 }}
               exit={{ opacity: 0, x: 50, rotateY: 10 }}
               transition={{ type: "spring", stiffness: 100, damping: 20 }}
-              className="bg-white/5 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/10 p-8 relative overflow-hidden"
+              className="bg-white/5 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/10 p-4 sm:p-8 relative overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-indigo-500/5 rounded-3xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-indigo-500/5 rounded-2xl sm:rounded-3xl"></div>
               
               <div className="relative z-10">
-                <div className="flex items-center space-x-4 mb-8">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
-                    <History className="w-6 h-6 text-white" />
+                <div className="flex items-center space-x-3 sm:space-x-4 mb-6 sm:mb-8">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
+                    <History className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
-                  <h2 className="text-3xl font-bold text-slate-800">Transaction History</h2>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-slate-800">Transaction History</h2>
                 </div>
                 
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {transactions.map((transaction, index) => (
                     <motion.div
                       key={transaction.id}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="group flex items-center justify-between p-6 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all"
+                      className="group flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 sm:p-6 bg-white/5 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all space-y-3 sm:space-y-0"
                     >
-                      <div className="flex items-center space-x-4">
-                        <div className="w-14 h-14 bg-gradient-to-br from-emerald-500/20 to-green-500/20 backdrop-blur-xl rounded-2xl flex items-center justify-center border border-emerald-400/20">
+                      <div className="flex items-center space-x-3 sm:space-x-4">
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-emerald-500/20 to-green-500/20 backdrop-blur-xl rounded-xl sm:rounded-2xl flex items-center justify-center border border-emerald-400/20">
                           {getTransactionIcon(transaction.type)}
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-slate-800 mb-1">{transaction.productName}</h4>
-                          <p className="text-sm text-slate-600 mb-1">{transaction.description}</p>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-slate-800 mb-1 text-sm sm:text-base">{transaction.productName}</h4>
+                          <p className="text-xs sm:text-sm text-slate-600 mb-1">{transaction.description}</p>
                           <p className="text-xs text-slate-500">{formatDate(transaction.date)}</p>
                         </div>
                       </div>
                       
-                      <div className="text-right">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <Coins className="w-4 h-4 text-amber-500" />
-                          <span className="font-bold text-emerald-600">+{transaction.ecoCoins}</span>
+                      <div className="flex justify-between sm:block sm:text-right ml-auto">
+                        <div className="flex items-center space-x-1 sm:space-x-2 mb-1 sm:mb-2">
+                          <Coins className="w-3 h-3 sm:w-4 sm:h-4 text-amber-500" />
+                          <span className="font-bold text-emerald-600 text-sm sm:text-base">+{transaction.ecoCoins}</span>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <IndianRupee className="w-4 h-4 text-blue-500" />
-                          <span className="font-medium text-blue-600">₹{transaction.rupees}</span>
+                        <div className="flex items-center space-x-1 sm:space-x-2">
+                          <IndianRupee className="w-3 h-3 sm:w-4 sm:h-4 text-blue-500" />
+                          <span className="font-medium text-blue-600 text-sm sm:text-base">₹{transaction.rupees}</span>
                         </div>
                       </div>
                     </motion.div>
@@ -881,12 +881,12 @@ const ProfilePage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
-                  className="text-center mt-8"
+                  className="text-center mt-6 sm:mt-8"
                 >
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="group px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-2xl font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all relative overflow-hidden"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl sm:rounded-2xl font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all relative overflow-hidden text-sm sm:text-base"
                   >
                     <span className="relative z-10">Load More Transactions</span>
                     <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -902,16 +902,16 @@ const ProfilePage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="mt-12 text-center"
+          className="mt-8 sm:mt-12 text-center"
         >
-          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+          <div className="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-6">
             <motion.a
               href="/"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="group flex items-center space-x-2 px-6 py-3 bg-white/20 backdrop-blur-xl rounded-2xl border border-white/30 text-slate-700 hover:text-slate-800 hover:border-white/50 transition-all"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="group flex items-center justify-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 bg-white/20 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-white/30 text-slate-700 hover:text-slate-800 hover:border-white/50 transition-all w-full sm:w-auto text-sm sm:text-base"
             >
-              <ChevronRight className="w-5 h-5 rotate-180" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 rotate-180" />
               <span>Back to Home</span>
             </motion.a>
             
@@ -923,11 +923,11 @@ const ProfilePage = () => {
                 window.dispatchEvent(new Event("logout"));
                 setIsLoggedIn(false);
               }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="group flex items-center space-x-2 px-6 py-3 bg-red-500/20 border border-red-400/50 text-red-600 rounded-2xl hover:bg-red-500/30 hover:border-red-400/70 transition-all"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="group flex items-center justify-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 bg-red-500/20 border border-red-400/50 text-red-600 rounded-xl sm:rounded-2xl hover:bg-red-500/30 hover:border-red-400/70 transition-all w-full sm:w-auto text-sm sm:text-base"
             >
-              <LogOut className="w-5 h-5" />
+              <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Logout</span>
             </motion.button>
           </div>

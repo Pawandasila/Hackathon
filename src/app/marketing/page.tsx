@@ -1,4 +1,5 @@
 "use client"
+import { useEffect,useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -6,10 +7,24 @@ import { Input } from "@/components/ui/input"
 import { Leaf, Recycle, Globe, Award, Users, Star, Play, CheckCircle, ArrowRight, Heart, Shield } from "lucide-react"
 import Link from "next/link"
 
-export default function SustainableProductPage() {
+export default function SustainableProductPage() {const [windowSize, setWindowSize] = useState({ width: typeof window !== "undefined" ? window.innerWidth : 1200, 
+  height: typeof window !== "undefined" ? window.innerHeight : 800 });
+
+useEffect(() => {
+  const handleResize = () => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+  
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-green-50 relative overflow-hidden">
-      {/* Animated Background Elements */}
+      {/* Animated Background Elements
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(15)].map((_, i) => (
           <motion.div
@@ -20,14 +35,13 @@ export default function SustainableProductPage() {
               height: Math.random() * 100 + 50,
             }}
             initial={{
-              x: Math.random() * window?.innerWidth || 1200,
-              y: Math.random() * window?.innerHeight || 800,
+              x: Math.random() * windowSize.width,
+y: Math.random() * windowSize.height,
+              
             }}
             animate={{
-              x: Math.random() * (window?.innerWidth || 1200),
-              y: Math.random() * (window?.innerHeight || 800),
-              scale: [1, 1.2, 1],
-              opacity: [0.15, 0.35, 0.15],
+              x: Math.random() * windowSize.width,
+  y: Math.random() * windowSize.height,
             }}
             transition={{
               duration: 20 + Math.random() * 10,
@@ -59,34 +73,6 @@ export default function SustainableProductPage() {
             }}
           />
         ))}
-      </div>
-
-      {/* Header */}
-      {/* <div className="w-full mx-auto">
-        <header className="max-w-7xl mx-auto px-4 lg:px-6 h-16 flex items-center border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50 relative z-10">
-          <Link href="/" className="flex items-center justify-center">
-            <Leaf className="h-8 w-8 text-green-600" />
-            <span className="ml-2 text-xl font-bold text-green-800">EcoFlow</span>
-          </Link>
-          <nav className="ml-auto flex gap-4 sm:gap-6">
-            <Link href="#features" className="text-sm font-medium hover:text-green-600 transition-colors">
-              Features
-            </Link>
-            <Link href="#impact" className="text-sm font-medium hover:text-green-600 transition-colors">
-              Impact
-            </Link>
-            <Link href="#testimonials" className="text-sm font-medium hover:text-green-600 transition-colors">
-              Reviews
-            </Link>
-            <Button
-              variant="outline"
-              size="sm"
-              className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white bg-transparent"
-            >
-              Get Started
-            </Button>
-          </nav>
-        </header>
       </div> */}
 
       <main className="flex-1">
@@ -150,9 +136,6 @@ export default function SustainableProductPage() {
                   </div>
                   {/* Placeholder for actual video */}
                   <div className="absolute bottom-4 left-4 right-4">
-                    {/* <div className="bg-black/50 text-white text-sm px-3 py-2 rounded backdrop-blur-sm">
-                      See how our products are changing lives and protecting the planet
-                    </div> */}
                   </div>
                 </div>
                 {/* Floating stats */}

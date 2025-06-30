@@ -1,576 +1,442 @@
-"use client"
-import { useEffect,useState } from "react"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Leaf, Recycle, Globe, Award, Users, Star, Play, CheckCircle, ArrowRight, Heart, Shield } from "lucide-react"
-import Link from "next/link"
+"use client";
+import { useState } from "react";
+import {
+  Leaf,
+  Recycle,
+  Globe,
+  TreePine,
+  Droplets,
+  Wind,
+  Sun,
+} from "lucide-react";
+import {
+  Dialog,
+  DialogContainer,
+  DialogTrigger,
+} from "@/components/custom/LinearDialog";
+import { Product, Category } from "@/types/product";
+import PageHeader from "@/components/custom/PageHeader";
+import CategoryFilter from "@/components/custom/CategoryFilter";
+import ProductCard from "@/components/custom/ProductCard";
+import ProductModal from "@/components/custom/ProductModal";
+import EmptyState from "@/components/custom/EmptyState";
 
-export default function SustainableProductPage() {const [windowSize, setWindowSize] = useState({ width: typeof window !== "undefined" ? window.innerWidth : 1200, 
-  height: typeof window !== "undefined" ? window.innerHeight : 800 });
+export default function EcoProductsPage() {
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [favorites, setFavorites] = useState<string[]>([]);
 
-useEffect(() => {
-  const handleResize = () => {
-    setWindowSize({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
+  // Eco-friendly products with detailed information
+  const products: Product[] = [
+    {
+      id: "1",
+      name: "Stainless Steel Water Bottle",
+      category: "plastic-alternatives",
+      price: 599,
+      originalPrice: 799,
+      ecoPoints: 150,
+      rating: 4.8,
+      reviews: 234,
+      image:
+        "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop",
+      shortDesc:
+        "Premium 500ml stainless steel bottle that replaces 1000+ plastic bottles",
+      description:
+        "This premium stainless steel water bottle is designed to be your lifelong hydration companion. Made from food-grade 18/8 stainless steel, it keeps your drinks cold for 24 hours and hot for 12 hours. The vacuum-insulated double-wall construction prevents condensation while maintaining temperature.",
+      features: ["BPA Free", "24hr Cold", "Leak Proof", "Dishwasher Safe"],
+      environmentalImpact: {
+        positive: [
+          "Replaces 1000+ single-use plastic bottles per year",
+          "Made from 90% recycled stainless steel",
+          "Zero plastic waste generation",
+          "Reduces carbon footprint by 80% vs plastic bottles",
+        ],
+        negative: [
+          "Higher initial manufacturing energy",
+          "Mining required for steel production",
+        ],
+      },
+      specifications: {
+        capacity: "500ml",
+        material: "18/8 Stainless Steel",
+        weight: "280g",
+        dimensions: "26cm x 7cm",
+        warranty: "Lifetime",
+      },
+      whereToFind: [
+        {
+          platform: "Amazon",
+          link: "https://amazon.in/search?k=stainless+steel+water+bottle",
+          price: "₹549",
+        },
+        {
+          platform: "Flipkart",
+          link: "https://flipkart.com/search?q=steel+water+bottle",
+          price: "₹599",
+        },
+        {
+          platform: "Myntra",
+          link: "https://myntra.com/search?q=water+bottle",
+          price: "₹629",
+        },
+      ],
+    },
+    {
+      id: "2",
+      name: "Bamboo Food Storage Set",
+      category: "bamboo",
+      price: 899,
+      originalPrice: 1199,
+      ecoPoints: 200,
+      rating: 4.9,
+      reviews: 156,
+      image:
+        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+      shortDesc: "4-piece bamboo container set replacing plastic storage",
+      description:
+        "This elegant 4-piece bamboo food storage set revolutionizes your kitchen storage. Made from sustainably harvested bamboo, these containers are naturally antibacterial and odor-resistant. The airtight lids ensure freshness while the stackable design saves space.",
+      features: ["Airtight", "Microwave Safe", "Biodegradable", "Stackable"],
+      environmentalImpact: {
+        positive: [
+          "Replaces 20+ plastic containers",
+          "Made from fast-growing bamboo",
+          "Fully biodegradable within 3 years",
+          "Carbon negative material",
+        ],
+        negative: [
+          "Requires proper care to maintain longevity",
+          "Not suitable for freezer storage",
+        ],
+      },
+      specifications: {
+        sizes: "250ml, 500ml, 750ml, 1000ml",
+        material: "Organic Bamboo Fiber",
+        weight: "400g (set)",
+        care: "Hand wash recommended",
+        warranty: "2 years",
+      },
+      whereToFind: [
+        {
+          platform: "Amazon",
+          link: "https://amazon.in/search?k=bamboo+food+containers",
+          price: "₹799",
+        },
+        {
+          platform: "Flipkart",
+          link: "https://flipkart.com/search?q=bamboo+storage",
+          price: "₹849",
+        },
+        {
+          platform: "Urban Company",
+          link: "https://urbancompany.com",
+          price: "₹899",
+        },
+      ],
+    },
+    {
+      id: "3",
+      name: "Premium Jute Shopping Bag",
+      category: "jute-bags",
+      price: 299,
+      originalPrice: 399,
+      ecoPoints: 120,
+      rating: 4.7,
+      reviews: 189,
+      image:
+        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop",
+      shortDesc: "Handwoven jute bag with reinforced handles",
+      description:
+        "This premium jute shopping bag combines traditional craftsmanship with modern durability. Handwoven by skilled artisans, it features reinforced handles and a spacious interior perfect for grocery shopping, beach trips, or daily errands.",
+      features: ["15kg Capacity", "Washable", "Durable", "Handwoven"],
+      environmentalImpact: {
+        positive: [
+          "Replaces 500+ plastic bags annually",
+          "Made from 100% natural jute fiber",
+          "Supports local artisan communities",
+          "Completely biodegradable",
+        ],
+        negative: [
+          "Requires water for jute cultivation",
+          "May show wear with heavy use",
+        ],
+      },
+      specifications: {
+        capacity: "15kg load capacity",
+        material: "100% Natural Jute",
+        dimensions: "40cm x 35cm x 15cm",
+        handleLength: "60cm",
+        warranty: "1 year",
+      },
+      whereToFind: [
+        {
+          platform: "Amazon",
+          link: "https://amazon.in/search?k=jute+shopping+bag",
+          price: "₹249",
+        },
+        {
+          platform: "Etsy",
+          link: "https://etsy.com/search?q=jute+bag",
+          price: "₹299",
+        },
+        { platform: "Local Markets", link: "#", price: "₹199" },
+      ],
+    },
+    {
+      id: "4",
+      name: "Solar Power Bank 20,000mAh",
+      category: "solar",
+      price: 1299,
+      originalPrice: 1599,
+      ecoPoints: 300,
+      rating: 4.6,
+      reviews: 298,
+      image:
+        "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop",
+      shortDesc: "High-capacity solar power bank with wireless charging",
+      description:
+        "This advanced solar power bank harnesses the sun's energy to keep your devices charged anywhere. With 20,000mAh capacity and wireless charging capability, it's perfect for outdoor adventures and emergency situations.",
+      features: ["Solar Charging", "Wireless Qi", "Fast Charge", "Waterproof"],
+      environmentalImpact: {
+        positive: [
+          "Uses renewable solar energy",
+          "Reduces grid electricity consumption",
+          "Long lifespan reduces electronic waste",
+          "Powers devices without fossil fuels",
+        ],
+        negative: [
+          "Battery contains lithium",
+          "Manufacturing requires rare earth elements",
+        ],
+      },
+      specifications: {
+        capacity: "20,000mAh",
+        solarPanel: "5W Monocrystalline",
+        outputs: "USB-A, USB-C, Wireless",
+        chargingTime: "8hrs (wall), 20hrs (solar)",
+        warranty: "2 years",
+      },
+      whereToFind: [
+        {
+          platform: "Amazon",
+          link: "https://amazon.in/search?k=solar+power+bank",
+          price: "₹1,199",
+        },
+        {
+          platform: "Flipkart",
+          link: "https://flipkart.com/search?q=solar+charger",
+          price: "₹1,299",
+        },
+        { platform: "Croma", link: "https://croma.com", price: "₹1,399" },
+      ],
+    },
+    {
+      id: "5",
+      name: "Organic Cotton Tote Bag",
+      category: "cotton",
+      price: 399,
+      originalPrice: 599,
+      ecoPoints: 100,
+      rating: 4.9,
+      reviews: 167,
+      image:
+        "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=400&h=400&fit=crop",
+      shortDesc: "Premium organic cotton tote with minimalist design",
+      description:
+        "This premium tote bag is made from 100% organic cotton, grown without harmful pesticides or chemicals. The minimalist design makes it perfect for everyday use, from grocery shopping to carrying work essentials.",
+      features: [
+        "Organic Cotton",
+        "Machine Washable",
+        "Durable Stitching",
+        "Large Capacity",
+      ],
+      environmentalImpact: {
+        positive: [
+          "Made from pesticide-free organic cotton",
+          "Biodegradable natural material",
+          "Supports sustainable farming",
+          "Replaces plastic bags",
+        ],
+        negative: [
+          "Higher water usage during cotton growing",
+          "Natural fiber processing requires energy",
+        ],
+      },
+      specifications: {
+        material: "100% Organic Cotton",
+        dimensions: "38cm x 42cm x 12cm",
+        handleLength: "65cm",
+        weight: "180g",
+        warranty: "1 year",
+      },
+      whereToFind: [
+        {
+          platform: "Amazon",
+          link: "https://amazon.in/search?k=organic+cotton+tote",
+          price: "₹349",
+        },
+        {
+          platform: "Myntra",
+          link: "https://myntra.com/search?q=tote+bag",
+          price: "₹399",
+        },
+        { platform: "Nykaa", link: "https://nykaa.com", price: "₹449" },
+      ],
+    },
+    {
+      id: "6",
+      name: "Biodegradable Phone Case",
+      category: "biodegradable",
+      price: 799,
+      originalPrice: 999,
+      ecoPoints: 180,
+      rating: 4.7,
+      reviews: 134,
+      image:
+        "https://images.unsplash.com/photo-1621768216002-5ac171876625?w=400&h=400&fit=crop",
+      shortDesc: "Plant-based phone case that protects your device and planet",
+      description:
+        "This innovative phone case is made from plant-based bioplastics that naturally biodegrade at the end of its life. It provides excellent protection for your phone while reducing plastic waste in landfills.",
+      features: [
+        "Plant-Based",
+        "Drop Protection",
+        "Biodegradable",
+        "Precise Cutouts",
+      ],
+      environmentalImpact: {
+        positive: [
+          "Biodegrades in 2-5 years vs 400+ for plastic",
+          "Made from renewable plant materials",
+          "Compostable at end of life",
+          "Reduces petroleum-based plastic use",
+        ],
+        negative: [
+          "Shorter lifespan than traditional plastic",
+          "Limited color options currently",
+        ],
+      },
+      specifications: {
+        material: "Plant-based Bioplastic",
+        compatibility: "Multiple phone models",
+        dropProtection: "2 meters",
+        biodegradableTime: "2-5 years",
+        warranty: "1 year",
+      },
+      whereToFind: [
+        {
+          platform: "Amazon",
+          link: "https://amazon.in/search?k=biodegradable+phone+case",
+          price: "₹749",
+        },
+        {
+          platform: "Flipkart",
+          link: "https://flipkart.com/search?q=eco+phone+case",
+          price: "₹799",
+        },
+        { platform: "Brand Website", link: "#", price: "₹699" },
+      ],
+    },
+  ];
+
+  const toggleFavorite = (productId: string) => {
+    setFavorites((prev) =>
+      prev.includes(productId)
+        ? prev.filter((id) => id !== productId)
+        : [...prev, productId]
+    );
   };
-  
-  window.addEventListener('resize', handleResize);
-  return () => window.removeEventListener('resize', handleResize);
-}, []);
+
+  const getEcoPointsColor = (points: number) => {
+    if (points >= 200)
+      return "text-purple-600 bg-gradient-to-r from-purple-100 to-purple-200 border border-purple-300";
+    if (points >= 150)
+      return "text-emerald-600 bg-gradient-to-r from-emerald-100 to-emerald-200 border border-emerald-300";
+    if (points >= 100)
+      return "text-blue-600 bg-gradient-to-r from-blue-100 to-blue-200 border border-blue-300";
+    return "text-amber-600 bg-gradient-to-r from-amber-100 to-amber-200 border border-amber-300";
+  };
+
+  const categories = [
+    { id: "all", name: "All Products", icon: Globe },
+    { id: "plastic-alternatives", name: "Plastic Alternatives", icon: Recycle },
+    { id: "bamboo", name: "Bamboo Products", icon: TreePine },
+    { id: "jute-bags", name: "Jute Bags", icon: Leaf },
+    { id: "solar", name: "Solar Products", icon: Sun },
+    { id: "cotton", name: "Organic Cotton", icon: Wind },
+    { id: "biodegradable", name: "Biodegradable", icon: Droplets },
+  ];
+
+  const filteredProducts =
+    selectedCategory === "all"
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-green-50 relative overflow-hidden">
-      {/* Animated Background Elements
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-green-400/40"
-            style={{
-              width: Math.random() * 100 + 50,
-              height: Math.random() * 100 + 50,
-            }}
-            initial={{
-              x: Math.random() * windowSize.width,
-y: Math.random() * windowSize.height,
-              
-            }}
-            animate={{
-              x: Math.random() * windowSize.width,
-  y: Math.random() * windowSize.height,
-            }}
-            transition={{
-              duration: 20 + Math.random() * 10,
-              repeat: Number.POSITIVE_INFINITY,
-              delay: Math.random() * 5,
-              ease: "easeInOut",
-            }}
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="container mx-auto px-4 py-12">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 left-1/4 w-32 h-32 bg-green-200/30 rounded-full blur-3xl"></div>
+          <div className="absolute top-10 right-1/4 w-24 h-24 bg-blue-200/30 rounded-full blur-2xl"></div>
+        </div>
+
+        {/* Header Section */}
+        <PageHeader
+          title="Eco-Friendly Products"
+          subtitle="Discover premium sustainable alternatives that help protect our planet while earning eco coins with every conscious purchase"
+          badge={{
+            text: "Sustainable Living Made Easy",
+            icon: <Leaf className="w-4 h-4" />,
+          }}
+        />
+
+        {/* Category Filter */}
+        <CategoryFilter
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onCategorySelect={setSelectedCategory}
+        />
+
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProducts.map((product, index) => (
+            <Dialog
+              key={product.id}
+              transition={{
+                type: "spring",
+                bounce: 0.05,
+                duration: 0.5,
+              }}
+            >
+              <DialogTrigger className="w-full">
+                <ProductCard
+                  product={product}
+                  index={index}
+                  favorites={favorites}
+                  onToggleFavorite={toggleFavorite}
+                  onCardClick={() => {}}
+                  getEcoPointsColor={getEcoPointsColor}
+                />
+              </DialogTrigger>
+
+              {/* Product Modal */}
+              <DialogContainer className="pt-20">
+                <ProductModal
+                  product={product}
+                  favorites={favorites}
+                  onToggleFavorite={toggleFavorite}
+                  getEcoPointsColor={getEcoPointsColor}
+                />
+              </DialogContainer>
+            </Dialog>
+          ))}
+        </div>
+
+        {/* No Products Found */}
+        {filteredProducts.length === 0 && (
+          <EmptyState
+            title="No products found"
+            description="Try adjusting your category filter or check back later for new eco-friendly products."
           />
-        ))}
-        {[...Array(8)].map((_, i) => (
-          <motion.div
-            key={`small-${i}`}
-            className="absolute w-4 h-4 bg-green-400/60 rounded-full"
-            initial={{
-              x: Math.random() * (window?.innerWidth || 1200),
-              y: Math.random() * (window?.innerHeight || 800),
-            }}
-            animate={{
-              y: [0, -50, 0],
-              x: [0, Math.random() * 100 - 50, 0],
-              opacity: [0, 1, 0],
-              scale: [0, 1, 0],
-            }}
-            transition={{
-              duration: 6 + Math.random() * 4,
-              repeat: Number.POSITIVE_INFINITY,
-              delay: Math.random() * 3,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </div> */}
-
-      <main className="flex-1">
-        {/* Hero Section with Video */}
-        <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="max-w-7xl mx-auto px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_600px] items-center">
-              <div className="flex flex-col justify-center space-y-6 text-center lg:text-left">
-                <div className="space-y-4">
-                  <div className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800 hover:bg-green-200 transition-colors">
-                    🌱 Carbon Neutral Certified
-                  </div>
-                  <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-green-900">
-                    Sustainable Living Made Simple
-                  </h1>
-                  <p className="max-w-[600px] text-gray-600 md:text-xl">
-                    Transform your daily routine with our eco-friendly products. Reduce your carbon footprint while
-                    enjoying premium quality that doesn't compromise on performance.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-3 min-[400px]:flex-row">
-                  <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white">
-                    Shop Now
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="border-green-600 text-green-600 hover:bg-green-50 bg-transparent"
-                  >
-                    Learn More
-                  </Button>
-                </div>
-                <div className="flex items-center gap-6 text-sm text-gray-600">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                    <span>Free shipping</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                    <span>30-day returns</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                    <span>Lifetime warranty</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Video Section */}
-              <div className="relative">
-                <div className="relative aspect-video rounded-xl overflow-hidden bg-gray-100 shadow-2xl">
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
-                    <Button
-                      size="lg"
-                      className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/50 backdrop-blur-sm"
-                    >
-                      <Play className="mr-2 h-6 w-6" />
-                      Watch Our Story
-                    </Button>
-                  </div>
-                  {/* Placeholder for actual video */}
-                  <div className="absolute bottom-4 left-4 right-4">
-                  </div>
-                </div>
-                {/* Floating stats */}
-                <div className="absolute -bottom-6 -left-6 bg-white rounded-lg shadow-lg p-4 border">
-                  <div className="text-2xl font-bold text-green-600">50K+</div>
-                  <div className="text-sm text-gray-600">Happy Customers</div>
-                </div>
-                <div className="absolute -top-6 -right-6 bg-white rounded-lg shadow-lg p-4 border">
-                  <div className="text-2xl font-bold text-green-600">1M+</div>
-                  <div className="text-sm text-gray-600">Trees Saved</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Features Section */}
-        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-white">
-          <div className="max-w-7xl mx-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-green-900">
-                  Why Choose Sustainable?
-                </h2>
-                <p className="max-w-[900px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Every product is designed with the planet in mind, without compromising on quality or performance.
-                </p>
-              </div>
-            </div>
-            <div className="mx-auto grid max-w-5xl items-start gap-6 py-12 lg:grid-cols-3 lg:gap-12">
-              <Card className="border-green-500 hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="p-2 bg-green-100 rounded-lg">
-                      <Recycle className="h-6 w-6 text-green-600" />
-                    </div>
-                    <h3 className="text-xl font-bold text-green-900">100% Recyclable</h3>
-                  </div>
-                  <p className="text-gray-600">
-                    All our products are made from recyclable materials and can be fully recycled at the end of their
-                    lifecycle.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-green-500 hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="p-2 bg-green-100 rounded-lg">
-                      <Globe className="h-6 w-6 text-green-600" />
-                    </div>
-                    <h3 className="text-xl font-bold text-green-900">Carbon Neutral</h3>
-                  </div>
-                  <p className="text-gray-600">
-                    We offset 100% of our carbon emissions through verified environmental projects and renewable energy.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-green-500 hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="p-2 bg-green-100 rounded-lg">
-                      <Shield className="h-6 w-6 text-green-600" />
-                    </div>
-                    <h3 className="text-xl font-bold text-green-900">Ethically Made</h3>
-                  </div>
-                  <p className="text-gray-600">
-                    Fair trade certified with ethical labor practices and sustainable supply chain management.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Products Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-white/80 backdrop-blur-sm relative z-10">
-          <div className="max-w-7xl mx-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800 hover:bg-green-200 transition-colors">
-                  Featured Products
-                </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-green-900">
-                  Sustainable Essentials
-                </h2>
-                <p className="max-w-[900px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Discover our carefully curated collection of eco-friendly products designed for modern sustainable
-                  living.
-                </p>
-              </div>
-            </div>
-            <div className="mx-auto grid max-w-6xl items-start gap-6 py-12 lg:grid-cols-3 lg:gap-8">
-              {/* Product 1 */}
-              <Card className="border-green-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white/90 backdrop-blur-sm">
-                <CardContent className="p-0">
-                  <div className="aspect-square bg-gradient-to-br from-green-100 to-emerald-100 relative overflow-hidden rounded-t-lg">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-32 h-32 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
-                        <Leaf className="h-16 w-16 text-white" />
-                      </div>
-                    </div>
-                    <div className="inline-flex items-center rounded-full bg-green-600 px-3 py-1 text-sm font-medium text-white">
-                      Best Seller
-                    </div>
-                    <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-sm rounded-full p-2">
-                      <Heart className="h-4 w-4 text-green-600" />
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="space-y-3">
-                      <h3 className="text-xl font-bold text-green-900">EcoClean Starter Kit</h3>
-                      <p className="text-gray-600 text-sm">
-                        Complete zero-waste cleaning solution with bamboo brushes, organic soaps, and reusable
-                        containers.
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <div className="flex items-center gap-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                          ))}
-                        </div>
-                        <span className="text-sm text-gray-600">(127 reviews)</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="space-y-1">
-                          <div className="text-2xl font-bold text-green-600">₹49.99</div>
-                          <div className="text-sm text-gray-500 line-through">₹69.99</div>
-                        </div>
-                        <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white">
-                          Add to Cart
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Product 2 */}
-              <Card className="border-green-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white/90 backdrop-blur-sm">
-                <CardContent className="p-0">
-                  <div className="aspect-square bg-gradient-to-br from-blue-100 to-cyan-100 relative overflow-hidden rounded-t-lg">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-32 h-32 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center shadow-lg">
-                        <Globe className="h-16 w-16 text-white" />
-                      </div>
-                    </div>
-                    <div className="inline-flex items-center rounded-full bg-blue-600 px-3 py-1 text-sm font-medium text-white">
-                      New
-                    </div>
-                    <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-sm rounded-full p-2">
-                      <Heart className="h-4 w-4 text-blue-600" />
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="space-y-3">
-                      <h3 className="text-2xl font-bold text-green-900">Ocean Bottle Collection</h3>
-                      <p className="text-gray-600 text-sm">
-                        Premium water bottles made from 100% recycled ocean plastic. Keeps drinks cold for 24 hours.
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <div className="flex items-center gap-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                          ))}
-                        </div>
-                        <span className="text-sm text-gray-600">(89 reviews)</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="space-y-1">
-                          <div className="text-2xl font-bold text-green-600">₹34.99</div>
-                          <div className="text-sm text-green-600">Free shipping</div>
-                        </div>
-                        <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white">
-                          Add to Cart
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Product 3 */}
-              <Card className="border-green-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white/90 backdrop-blur-sm">
-                <CardContent className="p-0">
-                  <div className="aspect-square bg-gradient-to-br from-amber-100 to-orange-100 relative overflow-hidden rounded-t-lg">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-32 h-32 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
-                        <Recycle className="h-16 w-16 text-white" />
-                      </div>
-                    </div>
-                    <div className="inline-flex items-center rounded-full bg-amber-600 px-3 py-1 text-sm font-medium text-white">
-                      Limited Edition
-                    </div>
-                    <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-sm rounded-full p-2">
-                      <Heart className="h-4 w-4 text-amber-600" />
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="space-y-3">
-                      <h3 className="text-2xl font-bold text-green-900">Solar Power Bank</h3>
-                      <p className="text-gray-600 text-sm">
-                        Portable solar charger with 20,000mAh capacity. Perfect for outdoor adventures and emergency
-                        backup.
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <div className="flex items-center gap-1">
-                          {[...Array(4)].map((_, i) => (
-                            <Star key={i} className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                          ))}
-                          <Star className="h-3 w-3 text-gray-300" />
-                        </div>
-                        <span className="text-sm text-gray-600">(64 reviews)</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="space-y-1">
-                          <div className="text-2xl font-bold text-green-600">₹89.99</div>
-                          <div className="text-sm text-green-600">2-year warranty</div>
-                        </div>
-                        <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white">
-                          Add to Cart
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* View All Products Button */}
-            <div className="flex justify-center pt-8">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white bg-white/80 backdrop-blur-sm"
-              >
-                View All Products
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* Impact Section */}
-        <section id="impact" className="w-full py-12 md:py-24 lg:py-32 bg-green-50/80 backdrop-blur-sm relative z-10">
-          <div className="max-w-7xl mx-auto px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px] items-center">
-              <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">
-                <div className="space-y-2">
-                  <div className="inline-flex items-center rounded-full bg-green-600 px-3 py-1 text-sm font-medium text-white">
-                    Environmental Impact
-                  </div>
-                  <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-green-900">
-                    Making a Real Difference
-                  </h2>
-                  <p className="max-w-[600px] text-gray-600 md:text-xl/relaxed">
-                    Every purchase contributes to a healthier planet. See the measurable impact we're making together.
-                  </p>
-                </div>
-                <div className="grid grid-cols-2 gap-4 text-center lg:text-left">
-                  <div className="space-y-2">
-                    <div className="text-2xl font-bold text-green-600">2.5M</div>
-                    <div className="text-sm text-gray-600">Plastic bottles recycled</div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="text-2xl font-bold text-green-600">15K</div>
-                    <div className="text-sm text-gray-600">Tons CO₂ offset</div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="text-2xl font-bold text-green-600">500+</div>
-                    <div className="text-sm text-gray-600">Communities supported</div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="text-2xl font-bold text-green-600">98%</div>
-                    <div className="text-sm text-gray-600">Customer satisfaction</div>
-                  </div>
-                </div>
-              </div>
-              <div className="relative">
-                <div className="aspect-square rounded-full bg-gradient-to-br from-green-400 to-green-600 p-8 shadow-2xl">
-                  <div className="h-full w-full rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
-                    <div className="text-center text-white">
-                      <Heart className="h-16 w-16 mx-auto mb-4" />
-                      <div className="text-2xl font-bold">Planet First</div>
-                      <div className="text-sm opacity-90">Always</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Testimonials */}
-        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-white relative z-10">
-          <div className="max-w-7xl mx-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-green-900">
-                  What Our Customers Say
-                </h2>
-                <p className="max-w-[900px] text-gray-600 md:text-xl/relaxed">
-                  Join thousands of satisfied customers making a positive impact.
-                </p>
-              </div>
-            </div>
-            <div className="mx-auto grid max-w-5xl items-start gap-6 py-12 lg:grid-cols-3 lg:gap-8">
-              <Card className="border-green-200">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-gray-600 mb-4">
-                    "Amazing quality and I love knowing that my purchase is helping the environment. The packaging is
-                    beautiful too!"
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                      <Users className="h-5 w-5 text-green-600" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-green-900">Sarah Chen</div>
-                      <div className="text-sm text-gray-600">Verified Customer</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-green-200">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-gray-600 mb-4">
-                    "Finally found a company that aligns with my values. Great products and even better mission!"
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                      <Users className="h-5 w-5 text-green-600" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-green-900">Mike Rodriguez</div>
-                      <div className="text-sm text-gray-600">Verified Customer</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-green-200">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-gray-600 mb-4">
-                    "The quality exceeded my expectations and I feel good about supporting sustainable practices."
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                      <Users className="h-5 w-5 text-green-600" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-green-900">Emma Thompson</div>
-                      <div className="text-sm text-gray-600">Verified Customer</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-green-600 to-green-700 relative z-10">
-          <div className="max-w-7xl mx-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-white">
-                  Ready to Make a Difference?
-                </h2>
-                <p className="max-w-[600px] text-green-100 md:text-xl/relaxed">
-                  Join our community of conscious consumers and start your sustainable journey today.
-                </p>
-              </div>
-              <div className="w-full max-w-sm space-y-2">
-                <form className="flex gap-2">
-                  <Input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="max-w-lg flex-1 bg-white/10 border-white/20 text-white placeholder:text-green-100"
-                  />
-                  <Button type="submit" className="bg-white text-green-600 hover:bg-green-50">
-                    Get Started
-                  </Button>
-                </form>
-                <p className="text-xs text-green-100">Get 15% off your first order. No spam, unsubscribe anytime.</p>
-              </div>
-              <div className="flex items-center gap-4 pt-4">
-                <div className="flex items-center gap-2 text-green-100">
-                  <Award className="h-4 w-4" />
-                  <span className="text-sm">B-Corp Certified</span>
-                </div>
-                <div className="flex items-center gap-2 text-green-100">
-                  <Leaf className="h-4 w-4" />
-                  <span className="text-sm">Climate Neutral</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <div className="w-full mx-auto">
-        <footer className="max-w-7xl mx-auto flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center justify-center px-4 md:px-6 border-t bg-green-50 text-center sm:text-left">
-          <p className="text-2xl text-gray-600">© 2024 EcoFlow. All rights reserved. Made with 💚 for the planet.</p>
-          <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-            <Link href="#" className="text-xs hover:underline underline-offset-4 text-gray-600">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="text-xs hover:underline underline-offset-4 text-gray-600">
-              Terms of Service
-            </Link>
-            <Link href="#" className="text-xs hover:underline underline-offset-4 text-gray-600">
-              Sustainability Report
-            </Link>
-          </nav>
-        </footer>
+        )}
       </div>
     </div>
-  )
+  );
 }

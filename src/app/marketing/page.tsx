@@ -371,21 +371,23 @@ export default function EcoProductsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-6 md:px-8 lg:px-12 xl:px-16 py-12 md:py-16 lg:py-20">
         <div className="absolute inset-0 -z-10">
           <div className="absolute top-0 left-1/4 w-32 h-32 bg-green-200/30 rounded-full blur-3xl"></div>
           <div className="absolute top-10 right-1/4 w-24 h-24 bg-blue-200/30 rounded-full blur-2xl"></div>
         </div>
 
         {/* Header Section */}
-        <PageHeader
-          title="Eco-Friendly Products"
-          subtitle="Discover premium sustainable alternatives that help protect our planet while earning eco coins with every conscious purchase"
-          badge={{
-            text: "Sustainable Living Made Easy",
-            icon: <Leaf className="w-4 h-4" />,
-          }}
-        />
+        <div className="mb-16 md:mb-20">
+          <PageHeader
+            title="Eco-Friendly Products"
+            subtitle="Discover premium sustainable alternatives that help protect our planet while earning eco coins with every conscious purchase"
+            badge={{
+              text: "Sustainable Living Made Easy",
+              icon: <Leaf className="w-4 h-4" />,
+            }}
+          />
+        </div>
 
         {/* Category Filter */}
         <CategoryFilter

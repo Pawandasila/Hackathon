@@ -11,7 +11,7 @@ const projects = [
     description:
       "Begin your sustainability journey by monitoring your daily activities, energy consumption, and lifestyle choices. Our AI-powered tracking system provides real-time insights into your environmental impact, helping you understand where you can make the biggest difference.",
     src: "sustainability-track.jpg",
-    link: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop",
+    link: "https://wallpapers.com/images/high/carbon-footprint-1183-x-887-wallpaper-8ifa7vgx68kply6l.webp",
     color: "#5196fd",
     features: [
       "Real-time carbon tracking",
@@ -49,8 +49,8 @@ const projects = [
     title: "Earn EcoCoins & Rewards",
     description:
       "Get rewarded for your sustainable choices! Earn EcoCoins for every eco-friendly action you take. Redeem them for sustainable products, carbon offsets, or donate to environmental causes. Gamification makes sustainability engaging and rewarding.",
-    src: "eco-rewards.jpg",
-    link: "https://images.unsplash.com/photo-1593113616828-6f22bde67318?w=800&auto=format&fit=crop",
+    src: "/ecocoin.jpg",
+    link: "https://www.rimi.org/images/legacy.png",
     color: "#fd521a",
     features: [
       "EcoCoin rewards system",
@@ -63,7 +63,7 @@ const projects = [
     description:
       "Join a community of 50,000+ eco-warriors making real change. Track your collective impact, participate in environmental projects, and see how your individual actions contribute to global sustainability goals. Together, we've offset over 2.5M kg of CO₂!",
     src: "global-impact.jpg",
-    link: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=800&auto=format&fit=crop",
+    link: "https://images.pexels.com/photos/6289026/pexels-photo-6289026.jpeg?_gl=1*13pq8ey*_ga*MTQ5MzA0Njg0MC4xNzUxMjcyMjMx*_ga_8JE65Q40S6*czE3NTEzNzQ5MjgkbzQkZzEkdDE3NTEzNzU0MzckajQyJGwwJGgw",
     color: "#064e3b",
     features: [
       "Community challenges",

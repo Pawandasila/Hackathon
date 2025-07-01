@@ -7,8 +7,17 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  images:{
-    domains: ['images.unsplash.com']
+  images: {
+    domains: [
+      'images.unsplash.com',
+      'wallpapers.com',
+      'images.pexels.com',
+      'cdn.pixabay.com',
+      'www.wallpaperflare.com',
+      'cdn.wallpapersafari.com',
+      'www.gov.il',
+      'www.rimi.org'
+    ],
   }
 };
 

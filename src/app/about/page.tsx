@@ -5,30 +5,41 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import ButtonCustom from "@/components/ui/Button.custom";
 
-
 export const TextParallaxContentExample = () => {
   return (
     <div className="bg-white">
       <TextParallaxContent
         imgUrl="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        subheading="Collaborate"
-        heading="Built for all of us."
+        subheading="EcoTrack360"
+        heading="Your Cart Can Change the World"
       >
-        <ExampleContent />
+        <ExampleContent 
+          title="About Us"
+          description="At EcoTrack360, we believe that every choice matters. Our mission is to make eco-friendly shopping rewarding, for you and for the planet. Every product featured on our platform is vetted for its environmental impact, and every purchase earns you EcoCoins, our way of pushing for a greener future."
+          buttonText="Join our mission"
+        />
       </TextParallaxContent>
       <TextParallaxContent
         imgUrl="https://images.unsplash.com/photo-1530893609608-32a9af3aa95c?q=80&w=2564&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         subheading="Quality"
         heading="Never compromise."
       >
-        <ExampleContent />
+        <ExampleContent 
+          title="Our Standards"
+          description="We rigorously test every product to ensure it meets our high quality and sustainability standards. Only the best products that align with our environmental values make it to our platform."
+          buttonText="See our criteria"
+        />
       </TextParallaxContent>
       <TextParallaxContent
         imgUrl="https://images.unsplash.com/photo-1504610926078-a1611febcad3?q=80&w=2416&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        subheading="Modern"
-        heading="Dress for the best."
+        subheading="Community"
+        heading="Together We Grow"
       >
-        <ExampleContent />
+        <ExampleContent 
+          title="EcoFamily"
+          description="Last month, members like you funded 12,000 new trees in the Amazon. Every EcoCoin you earn converts to real environmental action - clean water projects, solar farms, and wildlife conservation. This isn't rewards points, it's a revolution."
+          buttonText="Know more"
+        />
       </TextParallaxContent>
     </div>
   );
@@ -129,23 +140,22 @@ const OverlayCopy = ({
   );
 };
 
-const ExampleContent = () => (
+interface ExampleContentProps {
+  title: string;
+  description: string;
+  buttonText: string;
+}
+
+const ExampleContent = ({ title, description, buttonText }: ExampleContentProps) => (
   <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 sm:gap-8 px-4 pb-12 sm:pb-24 pt-8 sm:pt-12 md:grid-cols-12">
     <h2 className="col-span-1 text-2xl sm:text-3xl font-bold md:col-span-4">
-      Additional content explaining the above card here
+      {title}
     </h2>
     <div className="col-span-1 md:col-span-8">
       <p className="mb-3 sm:mb-4 text-lg sm:text-xl text-neutral-600 md:text-2xl">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi,
-        blanditiis soluta eius quam modi aliquam quaerat odit deleniti minima
-        maiores voluptate est ut saepe accusantium maxime doloremque nulla
-        consectetur possimus.
+        {description}
       </p>
-      <p className="mb-6 sm:mb-8 text-lg sm:text-xl text-neutral-600 md:text-2xl">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-        reiciendis blanditiis aliquam aut fugit sint.
-      </p>
-      <ButtonCustom value="Learn more" icon={<ArrowUp className="inline" />} />
+      <ButtonCustom value={buttonText} icon={<ArrowUp className="inline" />} />
     </div>
   </div>
 );

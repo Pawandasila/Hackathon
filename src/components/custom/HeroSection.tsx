@@ -19,11 +19,11 @@ const carouselImages: CarouselImage[] = [
     alt: "Environmental conservation imagery",
   },
   {
-    src: "/illus.svg",
+    src: "/earthhold.png",
     alt: "Sustainability illustration and icons",
   },
   {
-    src: "/globe.svg",
+    src: "/earthsust.png",
     alt: "Global environmental awareness",
   },
 ];

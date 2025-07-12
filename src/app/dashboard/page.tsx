@@ -1,11 +1,9 @@
-import Index from "@/components/custom/Heronew";
 import SupplyChainDashboard from "@/components/custom/SupplyChainDashboard";
 
-export default function Home() {
+export default function DashboardPage() {
   return (
     <div className="min-h-screen">
-      {/* <SupplyChainDashboard /> */}
-      <Index />
+      <SupplyChainDashboard />
     </div>
   );
 }

@@ -1,6 +1,65 @@
 "use client";
-import { useState } from "react";
-import axios from "axios";
+
+import { useState, useEffect } from "react";
+import { 
+  LayoutDashboard, 
+  Package, 
+  Users, 
+  BarChart3, 
+  Settings, 
+  Plus,
+  Search,
+  MoreHorizontal,
+  Edit,
+  Trash2,
+  Eye,
+  CheckCircle,
+  XCircle,
+  Filter,
+  Download,
+  Upload
+} from "lucide-react";
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
 
 type Product = {
     id: string;
@@ -9,382 +68,479 @@ type Product = {
     image?: string;
     createdAt: string;
     status: 'active' | 'inactive';
-}
+    category: string;
+    price: number;
+    sustainability_score: number;
+};
 
-const ManagePage = () => {
-    const [productName, setProductName] = useState('')
-    const [description, setDescription] = useState('')
-    const [image, setImage] = useState<File | null>(null)
-    const [isSubmitting, setIsSubmitting] = useState(false)
+const sidebarItems = [
+  {
+    title: "Dashboard",
+    icon: LayoutDashboard,
+    url: "#",
+    isActive: false,
+  },
+  {
+    title: "Products",
+    icon: Package,
+    url: "#",
+    isActive: true,
+    items: [
+      {
+        title: "All Products",
+        url: "#",
+      },
+      {
+        title: "Add Product",
+        url: "#",
+      },
+      {
+        title: "Categories",
+        url: "#",
+      },
+    ],
+  },
+  {
+    title: "Users",
+    icon: Users,
+    url: "#",
+    isActive: false,
+  },
+  {
+    title: "Analytics",
+    icon: BarChart3,
+    url: "#",
+    isActive: false,
+  },
+  {
+    title: "Settings",
+    icon: Settings,
+    url: "#",
+    isActive: false,
+  },
+];
+
+// Helper function to format dates consistently
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+};
+
+export default function AdminManagePage() {
+    const [mounted, setMounted] = useState(false);
     const [products, setProducts] = useState<Product[]>([
-        // Mock data for demonstration
         {
             id: '1',
             name: 'Eco-Friendly Water Bottle',
-            description: 'Sustainable water bottle made from recycled materials',
+            description: 'Sustainable water bottle made from recycled materials with advanced filtration system.',
             createdAt: '2024-01-15',
-            status: 'active'
+            status: 'active',
+            category: 'Drinkware',
+            price: 29.99,
+            sustainability_score: 95
         },
         {
             id: '2',
             name: 'Organic Cotton T-Shirt',
-            description: 'Comfortable t-shirt made from 100% organic cotton',
+            description: 'Comfortable t-shirt made from 100% organic cotton, ethically sourced and produced.',
             createdAt: '2024-01-14',
-            status: 'active'
+            status: 'active',
+            category: 'Clothing',
+            price: 39.99,
+            sustainability_score: 88
         },
         {
             id: '3',
             name: 'Solar Power Bank',
-            description: 'Portable charger with solar panel technology',
+            description: 'Portable charger with solar panel technology for eco-friendly device charging.',
             createdAt: '2024-01-13',
-            status: 'inactive'
+            status: 'inactive',
+            category: 'Electronics',
+            price: 89.99,
+            sustainability_score: 92
+        },
+        {
+            id: '4',
+            name: 'Bamboo Phone Case',
+            description: 'Durable phone protection made from sustainable bamboo materials.',
+            createdAt: '2024-01-12',
+            status: 'active',
+            category: 'Accessories',
+            price: 24.99,
+            sustainability_score: 85
+        },
+        {
+            id: '5',
+            name: 'Reusable Food Containers',
+            description: 'Set of glass containers perfect for meal prep and food storage.',
+            createdAt: '2024-01-11',
+            status: 'active',
+            category: 'Kitchen',
+            price: 59.99,
+            sustainability_score: 90
         }
-    ])
-    const [activeTab, setActiveTab] = useState<'add' | 'manage'>('add')
+    ]);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        setIsSubmitting(true)
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [activeView, setActiveView] = useState('overview');
 
-        const formData = new FormData()
-        formData.append('name', productName)
-        formData.append('description', description)
-        if (image) {
-            formData.append('image', image)
-        }
-
-        try {
-            const response = await axios.post('http://localhost:4000/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            console.log('Server Response:', response.data)
-
-            // Add new product to local state
-            const newProduct: Product = {
-                id: Date.now().toString(),
-                name: productName,
-                description,
-                createdAt: new Date().toISOString().split('T')[0],
-                status: 'active'
-            }
-            setProducts(prev => [newProduct, ...prev])
-
-            // Reset form
-            setProductName('')
-            setDescription('')
-            setImage(null)
-            
-            // Reset file input
-            const fileInput = document.getElementById('image') as HTMLInputElement;
-            if (fileInput) {
-                fileInput.value = '';
-            }
-        } catch (error) {
-            console.error('Error submitting product:', error)
-            if (axios.isAxiosError(error)) {
-                console.error('Response data:', error.response?.data)
-                console.error('Response status:', error.response?.status)
-            }
-        } finally {
-            setIsSubmitting(false)
-        }
-    }
-
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
-        if (file) setImage(file)
-    }
+    // Prevent hydration mismatch
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const toggleProductStatus = (id: string) => {
-        setProducts(prev => prev.map(product => 
+        setProducts(products.map(product => 
             product.id === id 
                 ? { ...product, status: product.status === 'active' ? 'inactive' : 'active' }
                 : product
-        ))
-    }
+        ));
+    };
 
     const deleteProduct = (id: string) => {
-        setProducts(prev => prev.filter(product => product.id !== id))
+        setProducts(products.filter(product => product.id !== id));
+    };
+
+    const filteredProducts = products.filter(product => {
+        const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            product.description.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCategory = selectedCategory === 'all' || product.category.toLowerCase() === selectedCategory.toLowerCase();
+        return matchesSearch && matchesCategory;
+    });
+
+    const categories = ['all', ...Array.from(new Set(products.map(p => p.category)))];
+
+    const stats = {
+        totalProducts: products.length,
+        activeProducts: products.filter(p => p.status === 'active').length,
+        inactiveProducts: products.filter(p => p.status === 'inactive').length,
+        avgSustainabilityScore: Math.round(products.reduce((acc, p) => acc + p.sustainability_score, 0) / products.length)
+    };
+
+    // Don't render until mounted to prevent hydration mismatch
+    if (!mounted) {
+        return null;
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
-            <div className="max-w-7xl mx-auto">
-                {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Product Management</h1>
-                    <p className="text-gray-600">Manage your product inventory and add new items</p>
-                </div>
-
-                {/* Tab Navigation */}
-                <div className="mb-8">
-                    <div className="border-b border-gray-200">
-                        <nav className="-mb-px flex space-x-8">
-                            <button
-                                onClick={() => setActiveTab('add')}
-                                className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                                    activeTab === 'add'
-                                        ? 'border-blue-500 text-blue-600'
-                                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                }`}
-                            >
-                                Add Product
-                            </button>
-                            <button
-                                onClick={() => setActiveTab('manage')}
-                                className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                                    activeTab === 'manage'
-                                        ? 'border-blue-500 text-blue-600'
-                                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                }`}
-                            >
-                                Manage Products ({products.length})
-                            </button>
-                        </nav>
-                    </div>
-                </div>
-
-                {/* Content Area */}
-                {activeTab === 'add' ? (
-                    // Add Product Form
-                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                        <div className="flex items-center mb-6">
-                            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                                </svg>
+        <SidebarProvider>
+            <div className="flex h-screen w-full relative">
+                {/* Floating Sidebar */}
+                <Sidebar className="fixed left-0 top-0 z-50 h-full border-r shadow-lg bg-white">
+                    <SidebarHeader className="border-b px-6 py-4">
+                        <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg flex items-center justify-center">
+                                <Package className="w-4 h-4 text-white" />
                             </div>
                             <div>
-                                <h2 className="text-xl font-semibold text-gray-900">Add New Product</h2>
-                                <p className="text-gray-600">Fill in the details to add a new product to your inventory</p>
+                                <h2 className="text-lg font-semibold">EcoTrack360</h2>
+                                <p className="text-sm text-muted-foreground">Admin Panel</p>
                             </div>
                         </div>
-
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                {/* Product Name */}
-                                <div>
-                                    <label htmlFor="productName" className="block text-sm font-medium text-gray-700 mb-2">
-                                        Product Name
-                                    </label>
-                                    <input
-                                        id="productName"
-                                        type="text"
-                                        required
-                                        placeholder="Enter product name"
-                                        value={productName}
-                                        onChange={(e) => setProductName(e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    />
-                                </div>
-
-                                {/* Image Upload */}
-                                <div>
-                                    <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
-                                        Product Image
-                                    </label>
-                                    <div className="relative">
-                                        <input
-                                            id="image"
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={handleImageChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                                        />
-                                    </div>
-                                    {image && (
-                                        <p className="mt-2 text-sm text-green-600">Selected: {image.name}</p>
-                                    )}
-                                </div>
+                    </SidebarHeader>
+                    
+                    <SidebarContent>
+                        <SidebarGroup>
+                            <SidebarMenu>
+                                {sidebarItems.map((item) => (
+                                    <SidebarMenuItem key={item.title}>
+                                        <SidebarMenuButton 
+                                            onClick={() => setActiveView(item.title.toLowerCase())}
+                                            isActive={item.isActive}
+                                            className="w-full"
+                                        >
+                                            <item.icon className="w-4 h-4" />
+                                            <span>{item.title}</span>
+                                        </SidebarMenuButton>
+                                        {item.items && (
+                                            <SidebarMenuSub>
+                                                {item.items.map((subItem) => (
+                                                    <SidebarMenuSubItem key={subItem.title}>
+                                                        <SidebarMenuSubButton>
+                                                            <span>{subItem.title}</span>
+                                                        </SidebarMenuSubButton>
+                                                    </SidebarMenuSubItem>
+                                                ))}
+                                            </SidebarMenuSub>
+                                        )}
+                                    </SidebarMenuItem>
+                                ))}
+                            </SidebarMenu>
+                        </SidebarGroup>
+                    </SidebarContent>
+                    
+                    <SidebarFooter className="border-t px-6 py-4">
+                        <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                                <span className="text-sm font-medium">A</span>
                             </div>
-
-                            {/* Description */}
-                            <div>
-                                <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Product Description
-                                </label>
-                                <textarea
-                                    id="description"
-                                    required
-                                    rows={4}
-                                    placeholder="Enter detailed product description"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                                />
+                            <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium truncate">Admin User</p>
+                                <p className="text-xs text-muted-foreground truncate">admin@ecotrack360.com</p>
                             </div>
+                        </div>
+                    </SidebarFooter>
+                </Sidebar>
 
-                            {/* Submit Button */}
-                            <div className="flex justify-end">
-                                <button
-                                    type="submit"
-                                    disabled={isSubmitting}
-                                    className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-3 px-6 rounded-lg disabled:cursor-not-allowed flex items-center space-x-2"
-                                >
-                                    {isSubmitting ? (
-                                        <>
-                                            <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                            </svg>
-                                            <span>Adding Product...</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                                            </svg>
-                                            <span>Add Product</span>
-                                        </>
-                                    )}
-                                </button>
+                {/* Main Content - Full Width */}
+                <div className="flex-1 flex flex-col overflow-hidden w-full">
+                    {/* Header */}
+                    <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+                        <div className="flex h-16 items-center px-6">
+                            <SidebarTrigger className="mr-4" />
+                            <div className="flex items-center space-x-4 flex-1">
+                                <h1 className="text-2xl font-bold">Product Management</h1>
                             </div>
-                        </form>
-                    </div>
-                ) : (
-                    // Manage Products
-                    <div className="space-y-6">
+                            <div className="flex items-center space-x-4">
+                                <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                                    <Plus className="w-4 h-4 mr-2" />
+                                    Add Product
+                                </Button>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Content Area */}
+                    <main className="flex-1 overflow-auto p-6 space-y-6">
                         {/* Stats Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                                <div className="flex items-center">
-                                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-4">
-                                        <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-600">Active Products</p>
-                                        <p className="text-2xl font-semibold text-gray-900">
-                                            {products.filter(p => p.status === 'active').length}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                                <div className="flex items-center">
-                                    <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
-                                        <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.268 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-600">Inactive Products</p>
-                                        <p className="text-2xl font-semibold text-gray-900">
-                                            {products.filter(p => p.status === 'inactive').length}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                                <div className="flex items-center">
-                                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                                        <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-600">Total Products</p>
-                                        <p className="text-2xl font-semibold text-gray-900">{products.length}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Products Table */}
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-                            <div className="px-6 py-4 border-b border-gray-200">
-                                <h3 className="text-lg font-medium text-gray-900">All Products</h3>
-                            </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">Total Products</CardTitle>
+                                    <Package className="h-4 w-4 text-muted-foreground" />
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-2xl font-bold">{stats.totalProducts}</div>
+                                    <p className="text-xs text-muted-foreground">
+                                        +2 from last month
+                                    </p>
+                                </CardContent>
+                            </Card>
                             
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
-                                        <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Product
-                                            </th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Description
-                                            </th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Status
-                                            </th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Created
-                                            </th>
-                                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Actions
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
-                                        {products.map((product) => (
-                                            <tr key={product.id} className="hover:bg-gray-50">
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="flex items-center">
-                                                        <div className="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center mr-4">
-                                                            <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
-                                                            </svg>
-                                                        </div>
-                                                        <div>
-                                                            <div className="text-sm font-medium text-gray-900">{product.name}</div>
-                                                            <div className="text-sm text-gray-500">ID: {product.id}</div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <div className="text-sm text-gray-900 max-w-xs truncate">{product.description}</div>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                                                        product.status === 'active' 
-                                                            ? 'bg-green-100 text-green-800' 
-                                                            : 'bg-gray-100 text-gray-800'
-                                                    }`}>
-                                                        {product.status}
-                                                    </span>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {new Date(product.createdAt).toLocaleDateString()}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <div className="flex items-center justify-end space-x-2">
-                                                        <button
-                                                            onClick={() => toggleProductStatus(product.id)}
-                                                            className={`px-3 py-1 text-xs font-medium rounded ${
-                                                                product.status === 'active'
-                                                                    ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
-                                                                    : 'bg-green-100 text-green-800 hover:bg-green-200'
-                                                            }`}
-                                                        >
-                                                            {product.status === 'active' ? 'Deactivate' : 'Activate'}
-                                                        </button>
-                                                        <button
-                                                            onClick={() => deleteProduct(product.id)}
-                                                            className="px-3 py-1 text-xs font-medium text-red-800 bg-red-100 rounded hover:bg-red-200"
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">Active Products</CardTitle>
+                                    <CheckCircle className="h-4 w-4 text-green-600" />
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-2xl font-bold">{stats.activeProducts}</div>
+                                    <p className="text-xs text-muted-foreground">
+                                        {Math.round((stats.activeProducts / stats.totalProducts) * 100)}% of total
+                                    </p>
+                                </CardContent>
+                            </Card>
+                            
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">Inactive Products</CardTitle>
+                                    <XCircle className="h-4 w-4 text-red-600" />
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-2xl font-bold">{stats.inactiveProducts}</div>
+                                    <p className="text-xs text-muted-foreground">
+                                        Needs attention
+                                    </p>
+                                </CardContent>
+                            </Card>
+                            
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">Avg Eco Score</CardTitle>
+                                    <BarChart3 className="h-4 w-4 text-green-600" />
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-2xl font-bold">{stats.avgSustainabilityScore}</div>
+                                    <p className="text-xs text-muted-foreground">
+                                        +5% from last month
+                                    </p>
+                                </CardContent>
+                            </Card>
                         </div>
-                    </div>
-                )}
-            </div>
-        </div>
-    )
-}
 
-export default ManagePage
+                        {/* Filters and Search */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Product Inventory</CardTitle>
+                                <CardDescription>
+                                    Manage your sustainable product catalog
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                                    <div className="flex-1">
+                                        <div className="relative">
+                                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                                            <Input
+                                                placeholder="Search products..."
+                                                value={searchTerm}
+                                                onChange={(e) => setSearchTerm(e.target.value)}
+                                                className="pl-10"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="outline" size="sm">
+                                                    <Filter className="w-4 h-4 mr-2" />
+                                                    Category: {selectedCategory}
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent>
+                                                {categories.map((category) => (
+                                                    <DropdownMenuItem
+                                                        key={category}
+                                                        onClick={() => setSelectedCategory(category)}
+                                                    >
+                                                        {category.charAt(0).toUpperCase() + category.slice(1)}
+                                                    </DropdownMenuItem>
+                                                ))}
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                        
+                                        <Button variant="outline" size="sm">
+                                            <Download className="w-4 h-4 mr-2" />
+                                            Export
+                                        </Button>
+                                    </div>
+                                </div>
+
+                                {/* Products Table */}
+                                <div className="rounded-md border">
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Product</TableHead>
+                                                <TableHead>Category</TableHead>
+                                                <TableHead>Price</TableHead>
+                                                <TableHead>Eco Score</TableHead>
+                                                <TableHead>Status</TableHead>
+                                                <TableHead>Created</TableHead>
+                                                <TableHead className="text-right">Actions</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {filteredProducts.map((product) => (
+                                                <TableRow key={product.id}>
+                                                    <TableCell>
+                                                        <div className="flex items-center space-x-3">
+                                                            <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                                                                <Package className="w-5 h-5 text-gray-400" />
+                                                            </div>
+                                                            <div>
+                                                                <div className="font-medium">{product.name}</div>
+                                                                <div className="text-sm text-muted-foreground truncate max-w-xs">
+                                                                    {product.description}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Badge variant="secondary">{product.category}</Badge>
+                                                    </TableCell>
+                                                    <TableCell className="font-medium">${product.price}</TableCell>
+                                                    <TableCell>
+                                                        <div className="flex items-center space-x-2">
+                                                            <div className="w-16 bg-gray-200 rounded-full h-2">
+                                                                <div 
+                                                                    className="bg-green-600 h-2 rounded-full" 
+                                                                    style={{ width: `${product.sustainability_score}%` }}
+                                                                ></div>
+                                                            </div>
+                                                            <span className="text-sm font-medium">{product.sustainability_score}</span>
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Badge 
+                                                            variant={product.status === 'active' ? 'default' : 'secondary'}
+                                                            className={product.status === 'active' ? 'bg-green-100 text-green-800' : ''}
+                                                        >
+                                                            {product.status}
+                                                        </Badge>
+                                                    </TableCell>
+                                                    <TableCell className="text-sm text-muted-foreground">
+                                                        {formatDate(product.createdAt)}
+                                                    </TableCell>
+                                                    <TableCell className="text-right">
+                                                        <DropdownMenu>
+                                                            <DropdownMenuTrigger asChild>
+                                                                <Button variant="ghost" className="h-8 w-8 p-0">
+                                                                    <MoreHorizontal className="h-4 w-4" />
+                                                                </Button>
+                                                            </DropdownMenuTrigger>
+                                                            <DropdownMenuContent align="end">
+                                                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                                <DropdownMenuItem>
+                                                                    <Eye className="mr-2 h-4 w-4" />
+                                                                    View Details
+                                                                </DropdownMenuItem>
+                                                                <DropdownMenuItem>
+                                                                    <Edit className="mr-2 h-4 w-4" />
+                                                                    Edit Product
+                                                                </DropdownMenuItem>
+                                                                <DropdownMenuSeparator />
+                                                                <DropdownMenuItem
+                                                                    onClick={() => toggleProductStatus(product.id)}
+                                                                >
+                                                                    {product.status === 'active' ? (
+                                                                        <>
+                                                                            <XCircle className="mr-2 h-4 w-4" />
+                                                                            Deactivate
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <CheckCircle className="mr-2 h-4 w-4" />
+                                                                            Activate
+                                                                        </>
+                                                                    )}
+                                                                </DropdownMenuItem>
+                                                                <DropdownMenuSeparator />
+                                                                <DropdownMenuItem
+                                                                    onClick={() => deleteProduct(product.id)}
+                                                                    className="text-red-600"
+                                                                >
+                                                                    <Trash2 className="mr-2 h-4 w-4" />
+                                                                    Delete
+                                                                </DropdownMenuItem>
+                                                            </DropdownMenuContent>
+                                                        </DropdownMenu>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+
+                                {filteredProducts.length === 0 && (
+                                    <div className="text-center py-12">
+                                        <Package className="mx-auto h-12 w-12 text-gray-400" />
+                                        <h3 className="mt-2 text-sm font-semibold text-gray-900">No products found</h3>
+                                        <p className="mt-1 text-sm text-gray-500">
+                                            {searchTerm || selectedCategory !== 'all' 
+                                                ? 'Try adjusting your search or filter criteria.' 
+                                                : 'Get started by adding your first product.'
+                                            }
+                                        </p>
+                                        {!searchTerm && selectedCategory === 'all' && (
+                                            <div className="mt-6">
+                                                <Button className="bg-green-600 hover:bg-green-700">
+                                                    <Plus className="w-4 h-4 mr-2" />
+                                                    Add Product
+                                                </Button>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </main>
+                </div>
+            </div>
+        </SidebarProvider>
+    );
+}

@@ -2,34 +2,34 @@
 import { motion } from "framer-motion";
 import ButtonCustom from "../ui/Button.custom";
 
-const features = [
+const retailerFeatures = [
   {
-    icon: "📊",
-    title: "REAL-TIME CARBON TRACKING",
-    desc: "Monitor your daily carbon footprint across all activities with precision and clarity",
-    color: "bg-rose-300",
+    icon: "📦",
+    title: "SMART INVENTORY MANAGEMENT",
+    desc: "Optimize stock levels sustainably, reducing waste and ensuring shelves are stocked efficiently using AI-powered demand forecasting.",
+    color: "bg-purple-200",
     hoverText: "LEARN MORE",
   },
   {
-    icon: "🤖",
-    title: "AI-POWERED RECOMMENDATIONS",
-    desc: "Get personalized suggestions to reduce environmental impact through smart technology",
-    color: "bg-green-300",
+    icon: "🚚",
+    title: "ECO LAST-MILE DELIVERY",
+    desc: "Minimize carbon emissions by optimizing delivery routes and utilizing hyper-local fulfillment for faster, cleaner deliveries.",
+    color: "bg-yellow-200",
     hoverText: "LEARN MORE",
   },
   {
-    icon: "🌍",
-    title: "COMMUNITY IMPACT",
-    desc: "Join a global movement of environmentally conscious individuals making real change",
-    color: "bg-orange-300",
+    icon: "📈",
+    title: "AI-DRIVEN ANALYTICS",
+    desc: "Leverage predictive analytics to align operations with sustainability goals while maintaining operational efficiency and reducing costs.",
+    color: "bg-sky-200",
     hoverText: "LEARN MORE",
   },
 ];
 
-export default function WhatWeDoSection() {
+export default function WhatWeDoRetailersSection() {
   return (
-    <section className="bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 min-h-screen sticky top-0 rounded-tr-2xl rounded-tl-2xl overflow-hidden py-16 lg:py-20">
-      <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#10b98120_1px,transparent_1px),linear-gradient(to_bottom,#10b98120_1px,transparent_1px)] bg-[size:54px_54px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+    <section className="bg-gradient-to-br from-sky-50 via-yellow-50 to-purple-50 min-h-screen sticky top-0 rounded-tr-2xl rounded-tl-2xl overflow-hidden py-16 lg:py-20">
+      <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#8b5cf620_1px,transparent_1px),linear-gradient(to_bottom,#8b5cf620_1px,transparent_1px)] bg-[size:54px_54px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
@@ -39,18 +39,18 @@ export default function WhatWeDoSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-6xl font-bold mb-6 relative">
-            <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
-              What We Do
+            <span className="bg-gradient-to-r from-purple-600 via-yellow-600 to-sky-600 bg-clip-text text-transparent">
+              What We Do For Retailers
             </span>
-            <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"></span>
+            <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-purple-500 via-yellow-500 to-sky-500 rounded-full"></span>
           </h2>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            EcoTrack360 empowers individuals and businesses to make meaningful environmental impact through intelligent tracking and actionable insights.
+            EcoTrack360 helps retailers transform their supply chains by optimizing inventory, reducing last-mile emissions, and leveraging AI for sustainable operational excellence.
           </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {features.map((item, index) => (
+          {retailerFeatures.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 50 }}
@@ -100,7 +100,7 @@ export default function WhatWeDoSection() {
 
                 {/* Bottom CTA */}
                 <div className="mt-8 pt-4 border-t border-gray-700/20 flex justify-center">
-                  <ButtonCustom value="Let's Go" />
+                  <ButtonCustom value="Explore" />
                 </div>
               </div>
 
@@ -114,10 +114,7 @@ export default function WhatWeDoSection() {
             </motion.div>
           ))}
         </div>
-
       </div>
-
-      
     </section>
   );
 }

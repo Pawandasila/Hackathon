@@ -3,75 +3,78 @@ import { ReactLenis } from "lenis/react";
 import { useTransform, motion, useScroll, MotionValue } from "motion/react";
 import { JSX, useRef } from "react";
 import Image from "next/image";
-import CustomButton from "./CustomButton";
+import Carbon from "@/assets/carbon.png"
 import ButtonCustom from "../ui/Button.custom";
+import { StaticImageData } from "next/image";
+
 const projects = [
   {
     title: "Track Your Carbon Footprint",
     description:
-      "Begin your sustainability journey by monitoring your daily activities, energy consumption, and lifestyle choices. Our AI-powered tracking system provides real-time insights into your environmental impact, helping you understand where you can make the biggest difference.",
+      "Take control of your climate impact by tracking your daily energy use, lifestyle habits, and travel activities. Our AI-powered dashboard offers real-time visibility into your carbon footprint, empowering you to identify, understand, and address your biggest emission areas effortlessly.",
     src: "sustainability-track.jpg",
-    link: "https://wallpapers.com/images/high/carbon-footprint-1183-x-887-wallpaper-8ifa7vgx68kply6l.webp",
-    color: "#5196fd",
+    link: Carbon,
+    color: "#3B82F6", // blue-500
     features: [
-      "Real-time carbon tracking",
-      "Smart device integration",
-      "Daily impact reports",
+      "Real-time carbon analytics",
+      "Device and activity integration",
+      "Actionable daily reports",
     ],
   },
   {
     title: "Get Smart Recommendations",
     description:
-      "Receive personalized, actionable insights based on your unique lifestyle patterns. Our machine learning algorithms analyze your data to suggest practical changes—from energy-efficient appliances to sustainable transportation options that fit your routine.",
+      "Receive clear, personalized recommendations to reduce your emissions without disrupting your lifestyle. Our intelligent system suggests practical swaps—from energy-efficient appliances to eco-friendly commute choices—helping you live sustainably while saving time and money.",
     src: "smart-insights.jpg",
     link: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop",
-    color: "#8f89ff",
+    color: "#6366F1", // indigo-500
     features: [
-      "AI-powered insights",
-      "Personalized suggestions",
-      "Cost-benefit analysis",
+      "Personalized AI insights",
+      "Practical lifestyle swaps",
+      "Save energy and costs",
     ],
   },
   {
     title: "Take Sustainable Actions",
     description:
-      "Transform insights into impact with our guided action plans. Start with simple daily habits like reducing water usage, choosing sustainable products, and optimizing your energy consumption. Every small step contributes to a larger environmental goal.",
+      "Turn your insights into meaningful change with guided sustainability action plans. Whether it’s reducing water waste, optimizing your home energy, or mindful shopping, our system helps you build consistent eco-friendly habits with measurable progress you can see.",
     src: "sustainable-actions.jpg",
     link: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop",
-    color: "#ed649e",
+    color: "#10B981", // emerald-500
     features: [
-      "Step-by-step action plans",
-      "Progress tracking",
-      "Habit formation tools",
+      "Guided eco action plans",
+      "Track habit progress",
+      "Reduce your footprint daily",
     ],
   },
   {
     title: "Earn EcoCoins & Rewards",
     description:
-      "Get rewarded for your sustainable choices! Earn EcoCoins for every eco-friendly action you take. Redeem them for sustainable products, carbon offsets, or donate to environmental causes. Gamification makes sustainability engaging and rewarding.",
+      "Make sustainability rewarding! Earn EcoCoins for every green action you take, whether it’s reducing energy use, biking to work, or using eco-friendly products. Redeem your coins for exclusive eco-friendly products, carbon offsets, or support global climate initiatives.",
     src: "/ecocoin.jpg",
     link: "https://www.rimi.org/images/legacy.png",
-    color: "#fd521a",
+    color: "#F97316", // orange-500
     features: [
-      "EcoCoin rewards system",
-      "Sustainable marketplace",
-      "Carbon offset options",
+      "Earn EcoCoins for actions",
+      "Exclusive eco marketplace",
+      "Support climate initiatives",
     ],
   },
   {
     title: "Create Global Impact",
     description:
-      "Join a community of 50,000+ eco-warriors making real change. Track your collective impact, participate in environmental projects, and see how your individual actions contribute to global sustainability goals. Together, we've offset over 2.5M kg of CO₂!",
+      "Join a vibrant community of climate champions working towards a greener world. Collaborate, track collective progress, and contribute to impactful environmental projects, from local cleanups to reforestation. Together, we can amplify your individual actions into global change.",
     src: "global-impact.jpg",
-    link: "https://images.pexels.com/photos/6289026/pexels-photo-6289026.jpeg?_gl=1*13pq8ey*_ga*MTQ5MzA0Njg0MC4xNzUxMjcyMjMx*_ga_8JE65Q40S6*czE3NTEzNzQ5MjgkbzQkZzEkdDE3NTEzNzU0MzckajQyJGwwJGgw",
-    color: "#064e3b",
+    link: "https://images.pexels.com/photos/6289026/pexels-photo-6289026.jpeg",
+    color: "#0D9488", // teal-600
     features: [
-      "Community challenges",
-      "Global impact tracking",
-      "Environmental projects",
+      "Community climate challenges",
+      "Collective impact tracking",
+      "Global environmental projects",
     ],
   },
 ];
+
 export default function index(): JSX.Element {
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -132,7 +135,7 @@ interface CardProps {
   title: string;
   description: string;
   src: string;
-  url: string;
+  url: string | StaticImageData;
   color: string;
   features: string[];
   progress: MotionValue<number>;

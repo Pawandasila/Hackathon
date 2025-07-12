@@ -5,6 +5,9 @@ import WhatWeDoSection from "./WhatWeDoSection";
 import SustainabilityJourneySection from "./SustainabilityJourneySection";
 import RewardsSection from "./RewardsSection";
 import Footer from "./Footer";
+import WhatWeDoRetailersSection from "./supplyRetail";
+
+// import AISupplyChainSection from "./AISupplyChainSection";
 
 export default function Index() {
 
@@ -14,7 +17,11 @@ export default function Index() {
         <div className="wrapper">
           <HeroSection />
           <WhatWeDoSection />
+          <WhatWeDoRetailersSection />
+
+
         </div>
+        
         <div className="wrapper">
           <SustainabilityJourneySection />
           <RewardsSection />

@@ -41,7 +41,7 @@ export default function HeroSection() {
   return (
     <section className="grid place-content-center sticky top-0 text-gray-800 min-h-screen w-full bg-[#f6eee8] overflow-hidden px-4 sm:px-6 lg:px-8 py-8 lg:py-0">
       <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#8b5a2b20_1px,transparent_1px),linear-gradient(to_bottom,#8b5a2b20_1px,transparent_1px)] bg-[size:54px_54px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
-      
+
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-0 w-full max-w-7xl min-h-[550px]">
         {/* Content Section */}
         <div className="flex flex-col justify-center p-4 sm:p-6 lg:p-12 xl:p-16 order-2 lg:order-1">
@@ -51,17 +51,22 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mb-1"
           >
-            <div className="text-3xl sm:text-4xl lg:text-5xl mb-4 lg:mb-6">🌱</div>
+            <div className="text-3xl sm:text-4xl lg:text-5xl mb-4 lg:mb-6">
+              🌱
+            </div>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-800 mb-3 lg:mb-4 leading-tight">
               <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
                 EcoTrack360
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-3 lg:mb-4">
-              AI-Powered Sustainability Scoring & Smart Recommendations
+              Your AI Co-Pilot for a Greener Future
             </p>
             <p className="text-base sm:text-lg text-gray-600 mb-4 lg:mb-4">
-              Track, analyze, and improve your environmental footprint with real-time insights tailored to your business or lifestyle.
+              Effortlessly track, analyze, and improve your carbon footprint
+              with actionable, real-time insights. Empower your lifestyle or
+              business with data-driven sustainability, tailored
+              recommendations, and measurable impact.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
@@ -74,7 +79,7 @@ export default function HeroSection() {
         {/* Image Carousel Section */}
         <div className="relative flex items-center justify-center p-4 sm:p-6 lg:p-8 xl:p-12 order-1 lg:order-2">
           <div className="absolute inset-0 bg-gradient-radial from-emerald-100/30 via-transparent to-transparent"></div>
-          
+
           <div className="relative w-full h-64 sm:h-80 lg:h-full max-w-xs sm:max-w-sm lg:max-w-md max-h-64 sm:max-h-80 lg:max-h-96">
             <AnimatePresence mode="wait">
               <motion.div
@@ -89,19 +94,29 @@ export default function HeroSection() {
                   {/* Enhanced Spotlight Ring with Multiple Layers */}
                   <motion.div
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                    transition={{
+                      duration: 25,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
                     className="absolute -inset-3 sm:-inset-4 lg:-inset-6 rounded-full opacity-30 blur-sm"
                     style={{
-                      background: "conic-gradient(from 0deg, #10b981, #059669, #047857, #064e3b, #10b981)",
+                      background:
+                        "conic-gradient(from 0deg, #10b981, #059669, #047857, #064e3b, #10b981)",
                     }}
                   />
                   {/* Secondary Glow Ring */}
                   <motion.div
                     animate={{ rotate: -360 }}
-                    transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                    transition={{
+                      duration: 30,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
                     className="absolute -inset-2 sm:-inset-3 lg:-inset-4 rounded-full opacity-20 blur-md"
                     style={{
-                      background: "conic-gradient(from 180deg, #6ee7b7, #34d399, #10b981, #059669, #6ee7b7)",
+                      background:
+                        "conic-gradient(from 180deg, #6ee7b7, #34d399, #10b981, #059669, #6ee7b7)",
                     }}
                   />
                   {/* Image */}
@@ -138,7 +153,12 @@ export default function HeroSection() {
 
             <motion.div
               animate={{ y: [0, 10, 0], rotate: [0, -5, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1,
+              }}
               className="absolute -bottom-2 -left-2 sm:-bottom-3 sm:-left-3 lg:-bottom-4 lg:-left-4 w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 bg-green-100 rounded-full flex items-center justify-center text-sm sm:text-lg lg:text-xl shadow-lg"
             >
               ♻️

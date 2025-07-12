@@ -230,8 +230,7 @@ export default function AdminManagePage() {
     return (
         <SidebarProvider>
             <div className="flex h-screen w-full relative">
-                {/* Floating Sidebar */}
-                <Sidebar className="fixed left-0 top-0 z-50 h-full border-r shadow-lg bg-white">
+                <Sidebar className="fixed left-0 top-0 z-50 h-full border-r shadow-lg " variant="floating">
                     <SidebarHeader className="border-b px-6 py-4">
                         <div className="flex items-center space-x-3">
                             <div className="w-8 h-8 bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg flex items-center justify-center">

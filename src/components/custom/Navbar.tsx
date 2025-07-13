@@ -30,7 +30,7 @@ const Navbar = () => {
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
     { name: "Rewards", href: "/rewards" },
-    { name: "Marketing", href: "/marketing" },
+    { name: "Market", href: "/marketing" },
   ];
   // Set active index based on current route
   useEffect(() => {

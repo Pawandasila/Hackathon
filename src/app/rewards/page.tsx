@@ -1,9 +1,9 @@
-"use client";
-import React, { useState } from "react";
+'use client';
+
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Trophy,
-  Gift,
   Star,
   Coins,
   Target,
@@ -12,16 +12,22 @@ import {
   Users,
   TrendingUp,
   Award,
-  Sparkles,
   Crown,
-  ArrowRight,
+  Sparkles,
 } from "lucide-react";
-import CustomButton from "@/components/custom/CustomButton";
 import ButtonCustom from "@/components/ui/Button.custom";
+import { Card } from "@/components/ui/card";
+import ecoCoinsImage from "@/assets/eco-coins.jpg"; 
+import Image from "next/image";
 
 const RewardsPage = () => {
   const [activeReward, setActiveReward] = useState<number | null>(null);
   const [claimedRewards, setClaimedRewards] = useState<number[]>([]);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const rewards = [
     {
@@ -32,7 +38,6 @@ const RewardsPage = () => {
       icon: Trophy,
       color: "from-yellow-400 to-orange-500",
       requirement: "30 days streak",
-      claimed: false,
       rarity: "Epic",
     },
     {
@@ -43,7 +48,6 @@ const RewardsPage = () => {
       icon: Target,
       color: "from-green-400 to-emerald-600",
       requirement: "50% reduction",
-      claimed: false,
       rarity: "Legendary",
     },
     {
@@ -54,7 +58,6 @@ const RewardsPage = () => {
       icon: Users,
       color: "from-blue-400 to-purple-600",
       requirement: "10 referrals",
-      claimed: false,
       rarity: "Rare",
     },
     {
@@ -65,7 +68,6 @@ const RewardsPage = () => {
       icon: Zap,
       color: "from-purple-400 to-pink-600",
       requirement: "5 ideas submitted",
-      claimed: false,
       rarity: "Epic",
     },
   ];
@@ -115,6 +117,7 @@ const RewardsPage = () => {
       },
     },
   };
+
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
@@ -128,32 +131,34 @@ const RewardsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f6eee8] via-[#e8dbc6] to-[#f6eee8] relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 relative overflow-hidden">
       {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full opacity-30"
-            initial={{
-              x: Math.random() * 1200,
-              y: Math.random() * 800,
-            }}
-            animate={{
-              y: -100,
-              x: Math.random() * 100 - 50,
-              opacity: [0, 1, 0],
-              scale: [0, 1.5, 0],
-            }}
-            transition={{
-              duration: 8 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </div>
+      {isClient && (
+        <div className="absolute inset-0">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full opacity-30"
+              initial={{
+                x: Math.random() * 1200,
+                y: Math.random() * 800,
+              }}
+              animate={{
+                y: -100,
+                x: Math.random() * 100 - 50,
+                opacity: [0, 1, 0],
+                scale: [0, 1.5, 0],
+              }}
+              transition={{
+                duration: 8 + Math.random() * 4,
+                repeat: Infinity,
+                delay: Math.random() * 5,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         <motion.div
@@ -193,27 +198,7 @@ const RewardsPage = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
             >
-              Earn points, unlock achievements, and compete with the
-              <span className="relative mx-2">
-                community
-                <svg
-                  viewBox="0 0 286 73"
-                  fill="none"
-                  className="absolute -left-2 -right-2 -top-2 bottom-0 translate-y-1"
-                >
-                  <motion.path
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    transition={{
-                      duration: 1.25,
-                      ease: "easeInOut",
-                    }}
-                    d="M142.293 1C106.854 16.8908 6.08202 7.17705 1.23654 43.3756C-2.10604 68.3466 29.5633 73.2652 122.688 71.7518C215.814 70.2384 316.298 70.689 275.761 38.0785C230.14 1.37835 97.0503 24.4575 52.9384 1"
-                    stroke="#FACC15"
-                    strokeWidth="3"
-                  />
-                </svg>
-              </span>
+              Earn points, unlock achievements, and compete with the community
               while making a positive environmental impact
             </motion.p>
 
@@ -341,16 +326,13 @@ const RewardsPage = () => {
                           {reward.points}
                         </span>
                         <span className="text-gray-600">points</span>
-                      </div>{" "}
-                      {/* <CustomButton
-                        onClick={() => handleClaimReward(reward.id)}
-                        variant={isClaimed ? "secondary" : "primary"}
-                        disabled={isClaimed}
-                        className="w-full"
+                      </div>
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                       >
-                        {isClaimed ? "Claimed" : "Claim Reward"}
-                      </CustomButton> */}
-                      <ButtonCustom value="Claim Reward"/>
+                        <ButtonCustom value={isClaimed ? "Claimed" : "Claim Reward"} />
+                      </motion.div>
                     </div>
 
                     {/* Animated Sparkles on Hover */}
@@ -512,6 +494,39 @@ const RewardsPage = () => {
             </motion.div>
           </div>
 
+          <Card className="mt-10 p-8 bg-white/50 backdrop-blur-lg border-primary/10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                  <div>
+                    <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                      <Coins className="h-6 w-6 text-primary" />
+                      How Eco-Coins Work
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 bg-gradient-eco rounded-full flex items-center justify-center text-primary-foreground text-sm font-bold">1</div>
+                        <p className="text-sm">Products are rated based on sustainability factors like materials, production methods, and carbon footprint</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 bg-gradient-eco rounded-full flex items-center justify-center text-primary-foreground text-sm font-bold">2</div>
+                        <p className="text-sm">Each purchase earns you eco-coins equivalent to the product's sustainability score</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 bg-gradient-eco rounded-full flex items-center justify-center text-primary-foreground text-sm font-bold">3</div>
+                        <p className="text-sm">Use eco-coins for discounts on future sustainable purchases or donate to environmental causes</p>
+                      </div>
+                    </div>
+                  </div>
+                  <Image
+                    src={ecoCoinsImage} 
+                    alt="Eco Coins" 
+                    className="w-full rounded-xl shadow-eco"
+                    width={500}
+                    height={500}
+                    priority
+                  />
+                </div>
+              </Card>
+
           {/* Call to Action */}
           <motion.div variants={itemVariants} className="text-center mt-16">
             <motion.div
@@ -530,41 +545,16 @@ const RewardsPage = () => {
               </motion.h2>
               <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
                 Complete daily challenges, track your progress, and unlock
-                exclusive
-                <span className="relative mx-2">
-                  rewards
-                  <svg
-                    viewBox="0 0 286 73"
-                    fill="none"
-                    className="absolute -left-2 -right-2 -top-2 bottom-0 translate-y-1"
-                  >
-                    <motion.path
-                      initial={{ pathLength: 0 }}
-                      whileInView={{ pathLength: 1 }}
-                      transition={{
-                        duration: 1.25,
-                        ease: "easeInOut",
-                        delay: 0.5,
-                      }}
-                      d="M142.293 1C106.854 16.8908 6.08202 7.17705 1.23654 43.3756C-2.10604 68.3466 29.5633 73.2652 122.688 71.7518C215.814 70.2384 316.298 70.689 275.761 38.0785C230.14 1.37835 97.0503 24.4575 52.9384 1"
-                      stroke="#FACC15"
-                      strokeWidth="3"
-                    />
-                  </svg>
-                </span>
-                for your eco-friendly lifestyle
+                exclusive rewards for your eco-friendly lifestyle
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {" "}
-                {/* <CustomButton variant="primary">
-                  View Daily Challenges
-                </CustomButton>
-                <CustomButton variant="secondary">
-                  Browse Reward Store
-                </CustomButton> */}
-                <ButtonCustom value="View Daily Challenges" />
-                <ButtonCustom value="Browse Reward Store" />
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <ButtonCustom value="View Daily Challenges" />
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <ButtonCustom value="Browse Reward Store" />
+                </motion.div>
               </div>
             </motion.div>
           </motion.div>

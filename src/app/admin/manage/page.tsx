@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { 
-  LayoutDashboard, 
   Package, 
   Users, 
   BarChart3, 
@@ -74,12 +73,6 @@ type Product = {
 };
 
 const sidebarItems = [
-  {
-    title: "Dashboard",
-    icon: LayoutDashboard,
-    url: "#",
-    isActive: false,
-  },
   {
     title: "Products",
     icon: Package,

@@ -11,7 +11,7 @@ const projects = [
   {
     title: "Track Your Carbon Footprint",
     description:
-      "Take control of your climate impact by tracking your daily energy use, lifestyle habits, and travel activities. Our AI-powered dashboard offers real-time visibility into your carbon footprint, empowering you to identify, understand, and address your biggest emission areas effortlessly.",
+      "Take control of your climate impact by tracking your daily energy use, lifestyle habits, and travel activities. Our AI-powered analytics offer real-time visibility into your carbon footprint, empowering you to identify, understand, and address your biggest emission areas effortlessly.",
     src: "sustainability-track.jpg",
     link: Carbon,
     color: "#3B82F6", // blue-500

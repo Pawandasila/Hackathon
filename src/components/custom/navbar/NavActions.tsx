@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, User, ShoppingCart, X, LogOut, Settings, Sparkles } from "lucide-react";
+import {  User, ShoppingCart, X, LogOut, Settings, Sparkles } from "lucide-react";
 
 interface NavActionsProps {
   showHamburger: boolean;
@@ -10,10 +10,10 @@ interface NavActionsProps {
 }
 
 const NavActions: React.FC<NavActionsProps> = ({ showHamburger, scrolled }) => {
-  const [searchOpen, setSearchOpen] = useState(false);
+  
   const [profileOpen, setProfileOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  
+  
   const profileRef = useRef<HTMLDivElement>(null);
 
   // Mock user state - replace with actual auth logic
@@ -43,13 +43,7 @@ const NavActions: React.FC<NavActionsProps> = ({ showHamburger, scrolled }) => {
     };
   }, []);
 
-  // Focus search input when opened
-  useEffect(() => {
-    if (searchOpen && searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  }, [searchOpen]);
-
+ 
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -62,28 +56,7 @@ const NavActions: React.FC<NavActionsProps> = ({ showHamburger, scrolled }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Close search on escape key
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setSearchOpen(false);
-        setSearchQuery("");
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      console.log("Searching for:", searchQuery);
-      // Add your search logic here
-      setSearchOpen(false);
-      setSearchQuery("");
-    }
-  };
+  
 
   const handleProfileAction = (action: string) => {
     console.log(`${action} clicked`);
@@ -122,28 +95,7 @@ const NavActions: React.FC<NavActionsProps> = ({ showHamburger, scrolled }) => {
         }}
         initial={false}
       >
-        {/* Enhanced Search Button */}
-        <motion.button
-          onClick={() => setSearchOpen(true)}
-          whileHover={{
-            scale: 1.05,
-            y: -1,
-          }}
-          whileTap={{ scale: 0.95 }}
-          className={`relative p-3 rounded-2xl transition-all duration-300 group ${
-            scrolled
-              ? "text-gray-600 hover:text-emerald-600 bg-white/10 hover:bg-white/20 shadow-sm hover:shadow-md border border-white/10"
-              : "text-gray-700/90 hover:text-gray-500 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20"
-          }`}
-        >
-          <Search className="w-5 h-5 transition-transform group-hover:scale-110" />
-          <motion.div
-            className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/20 to-green-500/20 opacity-0 group-hover:opacity-100 transition-opacity"
-            layoutId="search-glow"
-          />
-        </motion.button>
-
-        {/* Enhanced Profile Button */}
+  
         <div className="relative" ref={profileRef}>
           <motion.button
             onClick={() => setProfileOpen(!profileOpen)}
@@ -287,57 +239,7 @@ const NavActions: React.FC<NavActionsProps> = ({ showHamburger, scrolled }) => {
         </motion.button>
       </motion.div>
 
-      {/* Simple Search Overlay */}
-      <AnimatePresence>
-        {searchOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-start justify-center pt-20"
-            onClick={() => setSearchOpen(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.95, y: -20, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.95, y: -20, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="w-full max-w-2xl mx-4"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <form onSubmit={handleSearch} className="relative">
-                <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
-                  <div className="flex items-center">
-                    <Search className="w-5 h-5 text-gray-400 ml-6" />
-                    <input
-                      ref={searchInputRef}
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search for products..."
-                      className="flex-1 px-4 py-4 text-lg text-gray-700 bg-transparent border-none outline-none placeholder-gray-400"
-                    />
-                    <motion.button
-                      type="button"
-                      onClick={() => setSearchOpen(false)}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="p-2 mr-4 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
-                    >
-                      <X className="w-5 h-5" />
-                    </motion.button>
-                  </div>
-                </div>
-                
-                <p className="text-center text-gray-600 text-sm mt-3">
-                  Press <kbd className="bg-white px-2 py-1 rounded shadow text-xs">Enter</kbd> to search or <kbd className="bg-white px-2 py-1 rounded shadow text-xs">Esc</kbd> to close
-                </p>
-              </form>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+     
     </>
   );
 };

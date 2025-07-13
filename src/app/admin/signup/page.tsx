@@ -111,7 +111,7 @@ const AdminSignup = () => {
                         </svg>
                     </div>
                     <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Admin Account</h1>
-                    <p className="text-gray-600">Set up your admin dashboard access</p>
+                    <p className="text-gray-600">Set up your admin panel access</p>
                 </div>
 
                 {/* Signup Form */}

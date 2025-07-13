@@ -92,6 +92,7 @@ export default function ProductModal({
           <ProductActions
             favorites={favorites}
             productId={product.id}
+            product={product}
             onToggleFavorite={onToggleFavorite}
           />
         </div>

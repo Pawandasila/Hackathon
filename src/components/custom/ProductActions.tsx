@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Heart } from "lucide-react";
+import { addToCart } from "@/lib/cart";
+import { Product } from "@/types/product";
 
 interface ProductActionsProps {
   favorites: string[];
   productId: string;
+  product?: Product;
   onToggleFavorite: (productId: string) => void;
   onAddToCart?: () => void;
 }
@@ -11,14 +14,26 @@ interface ProductActionsProps {
 export default function ProductActions({
   favorites,
   productId,
+  product,
   onToggleFavorite,
   onAddToCart,
 }: ProductActionsProps) {
+  const handleAddToCart = () => {
+    if (product) {
+      const success = addToCart(product);
+      if (success && onAddToCart) {
+        onAddToCart();
+      }
+    } else if (onAddToCart) {
+      onAddToCart();
+    }
+  };
+
   return (
     <div className="flex gap-4 pt-6">
       <Button
         className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-3 rounded-2xl font-semibold shadow-lg shadow-green-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-green-500/30"
-        onClick={onAddToCart}
+        onClick={handleAddToCart}
       >
         <ShoppingCart className="w-5 h-5 mr-2" />
         Add to Cart

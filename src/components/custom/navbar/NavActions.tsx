@@ -19,6 +19,9 @@ const NavActions: React.FC<NavActionsProps> = ({ showHamburger, scrolled }) => {
   // Mock user state - replace with actual auth logic
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("John Doe");
+  
+  // Cart state
+  const [cartItemCount, setCartItemCount] = useState(0);
 
   // Check login status from localStorage on mount and listen for changes
   useEffect(() => {
@@ -40,6 +43,27 @@ const NavActions: React.FC<NavActionsProps> = ({ showHamburger, scrolled }) => {
 
     return () => {
       window.removeEventListener('storage', updateAuthState);
+    };
+  }, []);
+
+  // Cart management
+  useEffect(() => {
+    const updateCartCount = () => {
+      const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+      setCartItemCount(cartItems.length);
+    };
+
+    // Initial load
+    updateCartCount();
+
+    // Listen for cart updates
+    const handleCartUpdate = () => updateCartCount();
+    window.addEventListener('cartUpdated', handleCartUpdate);
+    window.addEventListener('storage', updateCartCount);
+
+    return () => {
+      window.removeEventListener('cartUpdated', handleCartUpdate);
+      window.removeEventListener('storage', updateCartCount);
     };
   }, []);
 
@@ -120,7 +144,6 @@ const NavActions: React.FC<NavActionsProps> = ({ showHamburger, scrolled }) => {
             )}
           </motion.button>
 
-          {/* Enhanced Profile Dropdown */}
           <AnimatePresence>
             {profileOpen && (
               <motion.div
@@ -216,6 +239,7 @@ const NavActions: React.FC<NavActionsProps> = ({ showHamburger, scrolled }) => {
 
         {/* Enhanced Shopping Cart Button */}
         <motion.button
+          onClick={() => window.location.href = "/cart"}
           whileHover={{
             scale: 1.05,
             y: -1,
@@ -228,14 +252,16 @@ const NavActions: React.FC<NavActionsProps> = ({ showHamburger, scrolled }) => {
           }`}
         >
           <ShoppingCart className="w-5 h-5 transition-transform group-hover:scale-110" />
-          <motion.span
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            whileHover={{ scale: 1.1 }}
-            className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full flex items-center justify-center font-bold shadow-lg border-2 border-white"
-          >
-            3
-          </motion.span>
+          {cartItemCount > 0 && (
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              whileHover={{ scale: 1.1 }}
+              className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full flex items-center justify-center font-bold shadow-lg border-2 border-white"
+            >
+              {cartItemCount > 99 ? "99+" : cartItemCount}
+            </motion.span>
+          )}
         </motion.button>
       </motion.div>
 

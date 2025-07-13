@@ -131,7 +131,7 @@ const RewardsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-emerald-50 relative overflow-hidden">
       {/* Animated Background Elements */}
       {isClient && (
         <div className="absolute inset-0">
@@ -187,9 +187,9 @@ const RewardsPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
             >
-              <span className="bg-gradient-to-r from-yellow-600 via-orange-600 to-red-600 bg-clip-text text-transparent">
-                Eco Rewards
-              </span>
+                <span className="bg-gradient-to-r from-emerald-400 via-emerald-600 to-green-600 bg-clip-text text-transparent">
+                  Eco Rewards
+                </span>
             </motion.h1>
 
             <motion.p

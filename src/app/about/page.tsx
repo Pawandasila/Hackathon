@@ -9,43 +9,45 @@ export const TextParallaxContentExample = () => {
   return (
     <div className="bg-white">
       <TextParallaxContent
-        imgUrl="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        subheading="EcoTrack360"
-        heading="Your Cart Can Change the World"
+        imgUrl="https://images.unsplash.com/photo-1624377149599-65e4b8cd6fa0?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        subheading="Retail with Purpose"
+        heading=" Aligning sustainability with profit in retail"
       >
         <ExampleContent 
           title="About Us"
-          description="At EcoTrack360, we believe that every choice matters. Our mission is to make eco-friendly shopping rewarding, for you and for the planet. Every product featured on our platform is vetted for its environmental impact, and every purchase earns you EcoCoins, our way of pushing for a greener future."
-          buttonText="Join our mission"
+          description="We are committed to transforming the retail industry by integrating sustainability into every aspect of our operations. Our platform connects eco-conscious consumers with brands that prioritize environmental responsibility."
+          buttonText="know more"
         />
       </TextParallaxContent>
       <TextParallaxContent
-        imgUrl="https://images.unsplash.com/photo-1530893609608-32a9af3aa95c?q=80&w=2564&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        subheading="Quality"
-        heading="Never compromise."
+        imgUrl="https://plus.unsplash.com/premium_photo-1683121710572-7723bd2e235d?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        subheading="Smart Solutions, Greener Operations"
+        heading=" Harnessing AI to reduce waste and optimize every step of the retail supply chain."
       >
         <ExampleContent 
-          title="Our Standards"
-          description="We rigorously test every product to ensure it meets our high quality and sustainability standards. Only the best products that align with our environmental values make it to our platform."
-          buttonText="See our criteria"
+          title="What We Do"
+          description="We harness the power of advanced artificial intelligence to enhance efficiency and reduce environmental impact across every aspect of retail operations, our tools are designed to make sustainability both scalable and achievable.
+"
+          buttonText="Explore"
         />
       </TextParallaxContent>
       <TextParallaxContent
-        imgUrl="https://images.unsplash.com/photo-1504610926078-a1611febcad3?q=80&w=2416&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        subheading="Community"
-        heading="Together We Grow"
+        imgUrl="https://plus.unsplash.com/premium_photo-1661371394983-42485fed3a58?q=80&w=869&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        subheading="Driving Impact Through Innovation"
+        heading="Helping businesses grow responsibly while creating a better future for the planet."
       >
         <ExampleContent 
-          title="EcoFamily"
-          description="Last month, members like you funded 12,000 new trees in the Amazon. Every EcoCoin you earn converts to real environmental action - clean water projects, solar farms, and wildlife conservation. This isn't rewards points, it's a revolution."
-          buttonText="Know more"
+          title="Driving Impact Through Innovation"
+          description="Sustainability is no longer optional it's a smart business move. By integrating AI into daily retail decisions, we help brands boost profits, earn customer trust, and meet modern environmental standards. Together, we're shaping a better future one responsible choice at a time.
+"
+          buttonText="See the Impact"
         />
       </TextParallaxContent>
     </div>
   );
 };
 
-const IMG_PADDING = 12;
+const IMG_PADDING = 120;
 
 const TextParallaxContent = ({
   imgUrl,

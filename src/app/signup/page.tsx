@@ -1,7 +1,8 @@
 'use client'
 import React, { useState } from "react";
-import { Eye, EyeOff, Lock, Mail, User, ArrowRight, Leaf, TreePine, Flower, Mountain, Sun, Cloud, Check, Globe, Award, Users } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, User, ArrowRight, Leaf, TreePine, Flower, Mountain, Sun, Cloud, Check, Globe, Award, Users, ArrowLeft, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,6 +21,8 @@ export default function SignupPage() {
     confirmPassword: "",
     general: "",
   });
+
+  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -97,7 +100,7 @@ export default function SignupPage() {
       window.dispatchEvent(new Event('storage'));
       
       // Redirect to home page
-      window.location.href = "/";
+      router.push("/");
       
     } catch (error) {
       setErrors(prev => ({
@@ -225,6 +228,14 @@ export default function SignupPage() {
       {/* Right Side - Signup Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50">
         <div className="w-full max-w-xl">
+          {/* Back to Home Link */}
+          <div className="mb-6">
+            <Link href="/" className="inline-flex items-center text-emerald-600 hover:text-emerald-700 transition-colors text-sm font-medium">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Home
+            </Link>
+          </div>
+
           {/* Mobile Header (visible only on smaller screens) */}
           <div className="lg:hidden text-center mb-8">
             <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4">

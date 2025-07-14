@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 
@@ -35,7 +36,7 @@ const AdminPage = () => {
         // TODO: Add proper validation and authentication
         setTimeout(() => {
             setIsLoading(false);
-            router.push('/admin/manage')
+            router.push('/admin/products')
         }, 1000);
     }
 
@@ -132,7 +133,10 @@ const AdminPage = () => {
                     {/* Footer */}
                     <div className="mt-6 text-center">
                         <p className="text-sm text-gray-500">
-                            Protected by enterprise security
+                            New to EcoTrack360?
+                            <Link href="/admin/signup" className="text-blue-600 hover:underline ml-1">
+                                Create an account
+                            </Link>
                         </p>
                     </div>
                 </div>

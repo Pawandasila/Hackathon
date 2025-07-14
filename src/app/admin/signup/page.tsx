@@ -302,15 +302,8 @@ const AdminSignup = () => {
 
                     {/* Footer */}
                     <div className="mt-6 text-center">
-                        <p className="text-sm text-gray-500">
-                            By creating an account, you agree to our terms and conditions
-                        </p>
-                    </div>
-                </div>
 
-                {/* Login Link */}
-                <div className="mt-6 text-center">
-                    <p className="text-sm text-gray-600">
+                         <p className="text-sm text-gray-600">
                         Already have an account?{" "}
                         <Link 
                             href="/admin/login" 
@@ -319,6 +312,8 @@ const AdminSignup = () => {
                             Sign in here
                         </Link>
                     </p>
+                        
+                    </div>
                 </div>
             </div>
         </div>
